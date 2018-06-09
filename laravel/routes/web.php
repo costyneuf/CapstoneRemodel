@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('main');
+    return view('schedules.index');
 });
 
 Route::get('about', function () {
@@ -21,4 +21,16 @@ Route::get('about', function () {
 
 Route::get('contact', function () {
     return view('pages.contact');
+});
+
+Route::get('resident', function () {
+    return view('schedules.resident.resident');
+});
+
+Route::get('admin', function () {
+    return view('schedules.admin.admin');
+});
+
+Route::get('resident/{page}', function ($page) {
+    return view('schedules.resident.'.$page);
 });
