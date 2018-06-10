@@ -19,6 +19,7 @@ Route::prefix('/')->group(function () {
 
 Route::prefix('resident')->group(function () {
     Route::get('/', 'ResidentController@getIndex');
+    Route::get('home', 'PagesController@getIndex');
     Route::get('about', 'PagesController@getAbout');
     Route::get('contact','PagesController@getContact');
    
@@ -32,6 +33,7 @@ Route::prefix('resident')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/', 'AdminController@getIndex');
+    Route::get('home', 'PagesController@getIndex');
     Route::get('about', 'PagesController@getAbout');
     Route::get('contact','PagesController@getContact');
 });

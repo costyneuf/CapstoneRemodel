@@ -1,5 +1,6 @@
 @extends('main')
 
 @section('content')
-{{ $date }}
+    <h3>Date: {{ $mon }}/{{ $day }}/{{ $year }}</h3>
+    <br><br><br>
 @endsection('content')
