@@ -1,10 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use App\ScheduleData;
+use App\Http\Controllers\Controller;
 
-class ScheduleData extends Model
+class ScheduleDataController extends Controller
 {
     /*
             $table->increments('id');
@@ -21,4 +23,10 @@ class ScheduleData extends Model
             $table->timestamps();
     */
     
+    // public function firstday()
+    // {
+    //     $schedule_data = ScheduleData::all();
+    //     return view('schedules.resident.viewschedule',compact('articles'));
+    // }
+
 }
