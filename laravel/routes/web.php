@@ -11,26 +11,29 @@
 |
 */
 
-Route::get('/', function () {
-    return view('schedules.index');
+Route::prefix('/')->group(function () {
+    Route::get('', 'PagesController@getIndex');
+    Route::get('about', 'PagesController@getAbout');
+    Route::get('contact','PagesController@getContact');
 });
 
-Route::get('about', function () {
-    return view('pages.about');
+Route::prefix('resident')->group(function () {
+    Route::get('/', 'ResidentController@getIndex');
+    Route::get('about', 'PagesController@getAbout');
+    Route::get('contact','PagesController@getContact');
+   
+    Route::get('schedule', 'ResidentController@getSchedule');
+    Route::get('schedule/firstday', 'ResidentController@getFirstDay');        
+    Route::get('schedule/secondday','ResidentController@getSecondDay');
+    Route::get('schedule/thirdday','ResidentController@getThirdDay');
+    
+    Route::get('instructions','ResidentController@getInstructions');
 });
 
-Route::get('contact', function () {
-    return view('pages.contact');
+Route::prefix('admin')->group(function () {
+    Route::get('/', 'AdminController@getIndex');
+    Route::get('about', 'PagesController@getAbout');
+    Route::get('contact','PagesController@getContact');
 });
 
-Route::get('resident', function () {
-    return view('schedules.resident.resident');
-});
 
-Route::get('admin', function () {
-    return view('schedules.admin.admin');
-});
-
-Route::get('resident/{page}', function ($page) {
-    return view('schedules.resident.'.$page);
-});
