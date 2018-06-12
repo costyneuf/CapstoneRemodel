@@ -8,7 +8,7 @@ class Schedule extends Model
 {
     public $surgeries;
 
-    public function __construct($file_pointer='', $year, $mon, $day)
+    public function __construct($file_pointer='')
 	{
 		$this->surgeries = [];
 		$map_keys = fgetcsv($file_pointer);

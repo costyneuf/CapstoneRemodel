@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ScheduleData;
 use App\Http\Controllers\Controller;
+use App\Schedule;
 
 class ScheduleDataController extends Controller
 {
@@ -47,7 +48,7 @@ class ScheduleDataController extends Controller
         // return view('schedules.resident.viewschedule',compact('schedule_data', 'year', 'mon', 'day'));
         
         #This is all going to need to change
-		$fp = fopen('../../../resources/Resident_Education_Report.20180612.csv', 'r');
+		$fp = fopen('../resources/Resident_Education_Report.20180612.csv', 'r');
 		$data['schedule'] = new Schedule($fp);
 		fclose($fp);
 		$data['element_ids'] = ["Date", "Location", "Room", "Case Procedures", "Lead Surgeon", "Patient Class", "Proc Start", "Proj End Time"];
@@ -68,7 +69,7 @@ class ScheduleDataController extends Controller
 
         // $schedule_data = DB::table('schedule_data')->select('date', $year.'-'.$mon.'-'.$day)->get();
         // return view('schedules.resident.viewschedule',compact('schedule_data', 'year', 'mon', 'day'));
-		$fp = fopen('../../../resources/Resident_Education_Report.20180612.csv', 'r');
+		$fp = fopen('../resources/Resident_Education_Report.20180607.csv', 'r');
 		$data['schedule'] = new Schedule($fp);
 		fclose($fp);
 		$data['element_ids'] = ["Date", "Location", "Room", "Case Procedures", "Lead Surgeon", "Patient Class", "Proc Start", "Proj End Time"];
@@ -89,7 +90,7 @@ class ScheduleDataController extends Controller
 
         // $schedule_data = DB::table('schedule_data')->select('date', $year.'-'.$mon.'-'.$day)->get();
         // return view('schedules.resident.viewschedule',compact('schedule_data', 'year', 'mon', 'day'));
-		$fp = fopen('../../../resources/Resident_Education_Report.20180612.csv', 'r');
+		$fp = fopen('../resources/Resident_Education_Report.20180608.csv', 'r');
 		$data['schedule'] = new Schedule($fp);
 		fclose($fp);
 		$data['element_ids'] = ["Date", "Location", "Room", "Case Procedures", "Lead Surgeon", "Patient Class", "Proc Start", "Proj End Time"];

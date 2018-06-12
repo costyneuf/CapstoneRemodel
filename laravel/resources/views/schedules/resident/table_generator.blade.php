@@ -1,4 +1,4 @@
-@extends('schedules.schedule')
+@extends('schedules.resident.viewschedule')
 
 @section('table_generator')
 
