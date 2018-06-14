@@ -51,7 +51,6 @@
 
 
 		</table>
-
 		<!--'">-->
 	@else
 		<h2>Error loading table!</h2>

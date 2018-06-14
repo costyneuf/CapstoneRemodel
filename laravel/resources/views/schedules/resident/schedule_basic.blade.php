@@ -107,8 +107,9 @@
         // Generate a warning box if selection has been made
         function checkPreference()
         {
-            
+
         }
 
     </script>
+    
 @endsection('content')
