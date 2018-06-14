@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
  * Models used in ScheduleDataController
  */
 use App\ScheduleData;
+use App\ScheduleParser;
 
 
 
@@ -36,7 +37,9 @@ class ScheduleDataController extends Controller
         if (strcmp($doctor, "TBD") == 0)
         {
             $schedule_data = ScheduleData::whereDate('date', $date)
+                                ->where('room', '<>', '')
                                 ->whereTime('start_time', '>=', $start_time)
+                                ->whereTime('start_time', '<>', '00:00:00')
                                 ->whereTime('end_time', '<=', $end_time)
                                 ->orderBy('room', 'asc')
                                 ->get();
@@ -45,7 +48,9 @@ class ScheduleDataController extends Controller
         {
             $schedule_data = ScheduleData::whereDate('date', $date)
                                 ->where('lead_surgeon', $doctor)
+                                ->where('room', '<>', '')
                                 ->whereTime('start_time', '>=', $start_time)
+                                ->whereTime('start_time', '<>', '00:00:00')
                                 ->whereTime('end_time', '<=', $end_time)
                                 ->orderBy('room', 'asc')
                                 ->get();
@@ -60,6 +65,8 @@ class ScheduleDataController extends Controller
      */
     public function getFirstDay($doctor=null, $start_time=null, $end_time=null)
     {
+        // Test
+        // $parser = new ScheduleParser("20180613");
         $year = date("o", strtotime('+1 day'));
         $mon = date('m',strtotime('+1 day'));
         $day = date('j',strtotime('+1 day'));
@@ -78,6 +85,8 @@ class ScheduleDataController extends Controller
 
     public function getSecondDay()
     {
+        // Test
+        // $parser = new ScheduleParser("20180614");
         $year = date("o", strtotime('+2 day'));
         $mon = date('m',strtotime('+2 day'));
         $day = date('j',strtotime('+2 day'));
