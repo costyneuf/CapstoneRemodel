@@ -97,66 +97,18 @@
 
     <!--Preference JS -->
     <script type="text/javascript">
-        /*
-        var firstPrefElement;
-        var secondPrefElement;
-        var thirdPrefElement;
-        */
-        function changePreferences(dropdown){
-            var optionSelectedIndex = dropdown.selectedIndex;
-            var selectedPref = dropdown.options[optionSelectedIndex].innerHTML;
-            var dropdownId = dropdown.id;
-            var prefDropdowns = document.getElementsByClassName("PreferenceSelector");
-            for(var i = 0; i < prefDropdowns.length; i++){
-                if(prefDropdowns[i].id !== dropdownId){
-                    if(selectedPref === prefDropdowns[i].options[prefDropdowns[i].selectedIndex].innerHTML){
-                        prefDropdowns[i].selectedIndex = 0;
-                        break;
-                    }                
-                }                
-            }
+        // Store username, selected data id, preferences into database.
+        function storePreference(id)
+        {
+
         }
-        function checkSelectedPreferences(){
-            var count = 3;
-            var prefDropdowns = document.getElementsByClassName("PreferenceSelector");
-            for(var i = 0; i < prefDropdowns.length; i++){
-                var selectedPref = prefDropdowns[i].options[prefDropdowns[i].selectedIndex].innerHTML;
-                
-                if(selectedPref === "First"){
-                    count = count - 1;
-                    var firstPrefElement = prefDropdowns[i];
-                }
-                else if(selectedPref === "Second"){
-                    count = count - 1;
-                    var secondPrefElement = prefDropdowns[i];
-                }
-                else if(selectedPref === "Third"){
-                    count = count - 1;
-                    var thirdPrefElement = prefDropdowns[i];
-                }             
-            }
-            if(count > 0){
-                document.getElementById("Error Message").style.display = "block";
-            }
-            else{
-                var firstPref = firstPrefElement.parentElement.parentElement.cells[2].innerHTML;
-                var secondPref = secondPrefElement.parentElement.parentElement.cells[2].innerHTML;
-                var thirdPref = thirdPrefElement.parentElement.parentElement.cells[2].innerHTML;
-                var firstDoc = firstPrefElement.parentElement.parentElement.cells[4].innerHTML;
-                if(firstDoc.indexOf(",") > 0){
-                     firstDoc = firstDoc.substring(0, firstDoc.indexOf(","));
-                }
-                var secondDoc = secondPrefElement.parentElement.parentElement.cells[4].innerHTML;
-                if(secondDoc.indexOf(",") > 0){
-                     secondDoc = secondDoc.substring(0, secondDoc.indexOf(","));
-                }
-                var thirdDoc = thirdPrefElement.parentElement.parentElement.cells[4].innerHTML;
-                if(thirdDoc.indexOf(",") > 0){
-                     thirdDoc = thirdDoc.substring(0, thirdDoc.indexOf(","));
-                }
-                url = "milestones?firstPref="+encodeURI(firstPref)+"&secondPref="+encodeURI(secondPref)+"&thirdPref="+encodeURI(thirdPref)+"&firstDoc="+encodeURI(firstDoc)+"&secondDoc="+encodeURI(secondDoc)+"&thirdDoc="+encodeURI(thirdDoc);
-                document.location.href = url;
-            }
+
+
+        // Generate a warning box if selection has been made
+        function checkPreference()
+        {
+            
         }
+
     </script>
 @endsection('content')

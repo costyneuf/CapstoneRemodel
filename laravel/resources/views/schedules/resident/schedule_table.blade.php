@@ -14,6 +14,7 @@
 				<th>Start Time</th>
 				<th>End Time</th>
 				<th>Preference</th>
+				<th>Submit</th>
 			</tr>
 
 			
@@ -23,7 +24,7 @@
 			@foreach ($schedule_data as $row)
 				<tr>
 				<?php
-					echo '<th id='.$count.'>'.$count.'</th>';
+					echo '<th>'.$count.'</th>';
 					echo '<th>'.$row->location.'</th>';
 					echo '<th>'.$row->room.'</th>';
 					echo '<th>'.$row->case_procedure.'</th>';
@@ -41,15 +42,15 @@
 						<option value= "third">Third</option>
 					</select>
 				</td>
+				<td>
+						<input align = "center" type="button" value="Select" id='.$row->id.' class='btn btn-md btn-success' onclick="storePreference($row->id);">						
+				</td>
 				</tr>
 			@endforeach
 
 
 
 		</table>
-		<input align = "right" type='submit' class='btn btn-md btn-success' onclick="checkSelectedPreferences();">
-		<p id = "Error Message" style="color:red; display: none;">Please select a First, Second, and Third Preference</p>
-
 
 		<!--'">-->
 	@else
