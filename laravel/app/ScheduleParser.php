@@ -123,26 +123,25 @@ class ScheduleParser extends Model
 	 */
 	public function processScheduleData()
 	{
-		$this->insertScheduleData();
-
 		$data_arr = ScheduleData::whereDate('date', '>', $this->date)
 								->orderBy('room', 'asc')
 								->get();
 
+								
 		for($i = 0; $i < count($data_arr) - 1; $i++)
 		{
-			if (strcmp($data_arr[$i]['room'], $data_arr[$i + 1]['room']) == 0 && 
-					strcmp($data_arr[$i]['date'], $data_arr[$i + 1]['date']) == 0)
+			if ($data_arr[$i]['room'] == $data_arr[$i + 1]['room'] && 
+					$data_arr[$i]['date'] == $data_arr[$i + 1]['date'])
 			{
 				/**
 				 * Updates $data_arr[$i + 1]
 				 */
-				if(strcmp($data_arr[$i]['start_time'], $data_arr[$i + 1]['start_time']) < 0)
+				if($data_arr[$i]['start_time'] < $data_arr[$i + 1]['start_time'])
 				{
 					ScheduleData::where('id', $data_arr[$i + 1]['id'])
 								->update(['start_time', $data_arr[$i]['start_time']]);
 				}
-				if(strcmp($data_arr[$i]['end_time'], $data_arr[$i + 1]['end_time']) > 0)
+				if($data_arr[$i]['end_time'] > $data_arr[$i + 1]['end_time'])
 				{
 					ScheduleData::where('id', $data_arr[$i + 1]['id'])
 								->update(['end_time', $data_arr[$i]['end_time']]);
