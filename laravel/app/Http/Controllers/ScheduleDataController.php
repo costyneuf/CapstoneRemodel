@@ -84,10 +84,11 @@ class ScheduleDataController extends Controller
  
     }
 
-    public function getSecondDay()
+    public function getSecondDay($doctor=null, $start_time=null, $end_time=null)
     {
         // Test
-        // $parser = new ScheduleParser("20180614");
+        $parser = new ScheduleParser("20180614");
+        $parser->processScheduleData();
         $year = date("o", strtotime('+2 day'));
         $mon = date('m',strtotime('+2 day'));
         $day = date('j',strtotime('+2 day'));
@@ -104,7 +105,7 @@ class ScheduleDataController extends Controller
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
     }
 
-    public function getThirdDay()
+    public function getThirdDay($doctor=null, $start_time=null, $end_time=null)
     {
         $year = date("o", strtotime('+3 day'));
         $mon = date('m',strtotime('+3 day'));
@@ -118,7 +119,7 @@ class ScheduleDataController extends Controller
         $date =  $year.'-'.$mon.'-'.$day;
         $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $doctor,
                                                 'start_time' => $start_time, 'end_time' => $end_time));
-                                                
+
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
 
     }
