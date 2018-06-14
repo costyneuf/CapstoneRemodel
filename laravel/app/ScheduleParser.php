@@ -121,17 +121,16 @@ class ScheduleParser extends Model
 	/**
 	 * Combine data row with same date and room
 	 */
-	public function processScheduleData()
+	public function processScheduleData($date)
 	{
-		$data_arr = ScheduleData::whereDate('date', '>', $this->date)
+		$data_arr = ScheduleData::where('date', $date)
 								->orderBy('room', 'asc')
 								->get();
 
 								
 		for($i = 0; $i < count($data_arr) - 1; $i++)
 		{
-			if ($data_arr[$i]['room'] == $data_arr[$i + 1]['room'] && 
-					$data_arr[$i]['date'] == $data_arr[$i + 1]['date'])
+			if ($data_arr[$i]['room'] == $data_arr[$i + 1]['room'])
 			{
 				/**
 				 * Updates $data_arr[$i + 1]
@@ -139,16 +138,16 @@ class ScheduleParser extends Model
 				if($data_arr[$i]['start_time'] < $data_arr[$i + 1]['start_time'])
 				{
 					ScheduleData::where('id', $data_arr[$i + 1]['id'])
-								->update(['start_time', $data_arr[$i]['start_time']]);
+								->update(['start_time'=> $data_arr[$i]['start_time']]);
 				}
 				if($data_arr[$i]['end_time'] > $data_arr[$i + 1]['end_time'])
 				{
 					ScheduleData::where('id', $data_arr[$i + 1]['id'])
-								->update(['end_time', $data_arr[$i]['end_time']]);
+								->update(['end_time'=> $data_arr[$i]['end_time']]);
 				}
 				$case_procedure = $data_arr[$i]['case_procedure'].", ".$data_arr[$i+1]['case_procedure'];
 				ScheduleData::where('id', $data_arr[$i + 1]['id'])
-							->update(['case_procedure', $case_procedure]);
+							->update(['case_procedure'=> $case_procedure]);
 
 
 				// Delete data query

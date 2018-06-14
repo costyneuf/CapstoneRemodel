@@ -86,9 +86,7 @@ class ScheduleDataController extends Controller
 
     public function getSecondDay($doctor=null, $start_time=null, $end_time=null)
     {
-        // Test
-        $parser = new ScheduleParser("20180614");
-        $parser->processScheduleData();
+
         $year = date("o", strtotime('+2 day'));
         $mon = date('m',strtotime('+2 day'));
         $day = date('j',strtotime('+2 day'));
@@ -99,6 +97,11 @@ class ScheduleDataController extends Controller
         }
 
         $date =  $year.'-'.$mon.'-'.$day;
+        
+        // Test
+        $parser = new ScheduleParser("20180614");
+        $parser->processScheduleData("2018-06-18");
+        
         $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $doctor,
                                                 'start_time' => $start_time, 'end_time' => $end_time));
 
