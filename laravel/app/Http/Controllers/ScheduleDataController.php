@@ -28,12 +28,12 @@ class ScheduleDataController extends Controller
          * Set up default input values.
          */
         $date = $args['date'];
-        $doctor = !isset($args['doctor']) ? null : $args['doctor'];
+        $doctor = !isset($args['lead_surgeon']) ? "TBD" : $args['lead_surgeon'];
         $start_time = !isset($args['start_time']) ? '00:00:00' : $args['start_time'];
         $end_time = !isset($args['end_time']) ? '23:59:59' : $args['end_time'];
 
         $schedule_data = null;
-        if ($doctor !== null)
+        if (strcmp($doctor, "TBD") == 0)
         {
             $schedule_data = ScheduleData::whereDate('date', $date)
                                 ->whereTime('start_time', '>=', $start_time)
@@ -44,7 +44,7 @@ class ScheduleDataController extends Controller
         else
         {
             $schedule_data = ScheduleData::whereDate('date', $date)
-                                ->where('doctor', $doctor)
+                                ->where('lead_surgeon', $doctor)
                                 ->whereTime('start_time', '>=', $start_time)
                                 ->whereTime('end_time', '<=', $end_time)
                                 ->orderBy('room', 'asc')
@@ -70,7 +70,7 @@ class ScheduleDataController extends Controller
         }
         
         $date =  $year.'-'.$mon.'-'.$day;
-        $schedule_data = updateData(array('date' => $date));
+        $schedule_data = self::updateData(array('date' => $date));
 
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
  
@@ -88,7 +88,7 @@ class ScheduleDataController extends Controller
         }
 
         $date =  $year.'-'.$mon.'-'.$day;
-        $schedule_data = updateData(array('date' => $date));
+        $schedule_data = self::updateData(array('date' => $date));
 
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
     }
@@ -103,9 +103,9 @@ class ScheduleDataController extends Controller
             $mon = date('m',strtotime('+5 day'));
             $day = date('j',strtotime('+5 day'));
         } 
-        
+
         $date =  $year.'-'.$mon.'-'.$day;
-        $schedule_data = updateData(array('date' => $date));
+        $schedule_data = self::updateData(array('date' => $date));
 
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
 
