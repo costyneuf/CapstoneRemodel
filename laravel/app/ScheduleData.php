@@ -21,4 +21,17 @@ class ScheduleData extends Model
             $table->timestamps();
     */
     
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'schedule_data';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

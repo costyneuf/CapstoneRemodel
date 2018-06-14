@@ -3,37 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\ScheduleData;
 use App\Http\Controllers\Controller;
-use App\Schedule;
+
+/**
+ * Models used in ScheduleDataController
+ */
+use App\ScheduleData;
+
+
 
 class ScheduleDataController extends Controller
 {
-    /*
-            $table->increments('id');
 
-            $table->date('date');
-            $table->text('location');
-            $table->text('room');
-            $table->longText('case_procedure');
-            $table->text('lead_surgeon');
-            $table->longText('patient_class');
-            $table->time('start_time');
-            $table->time('end_time');
+    /**
+     * Private functions
+     */
 
-            $table->timestamps();
-    */
-    
-    private function getSchedule()
+    /**
+     * Filter data to output.
+     */
+    private static function updateData(array $args = array())
     {
-        #This is all going to need to change
-		$fp = fopen('../../../resources/Resident_Education_Report.20180612.csv', 'r');
-		$data['schedule'] = new Schedule($fp);
-		fclose($fp);
-		$data['element_ids'] = ["Date", "Location", "Room", "Case Procedures", "Lead Surgeon", "Patient Class", "Proc Start", "Proj End Time"];
+        /**
+         * Set up default input values.
+         */
+        $date = $args['date'];
+        $doctor = !isset($args['doctor']) ? null : $args['doctor'];
+        $start_time = !isset($args['start_time']) ? '00:00:00' : $args['start_time'];
+        $end_time = !isset($args['end_time']) ? '23:59:59' : $args['end_time'];
+
+        $schedule_data = null;
+        if ($doctor !== null)
+        {
+            $schedule_data = ScheduleData::whereDate('date', $date)
+                                ->whereTime('start_time', '>=', $start_time)
+                                ->whereTime('end_time', '<=', $end_time)
+                                ->orderBy('room', 'asc')
+                                ->get();
+        }
+        else
+        {
+            $schedule_data = ScheduleData::whereDate('date', $date)
+                                ->where('doctor', $doctor)
+                                ->whereTime('start_time', '>=', $start_time)
+                                ->whereTime('end_time', '<=', $end_time)
+                                ->orderBy('room', 'asc')
+                                ->get();
+        }
+
+        return $schedule_data;
     }
 
-    public function getFirstDay()
+
+    /**
+     * Public functions
+     */
+    public function getFirstDay($doctor=null, $start_time=null, $end_time=null)
     {
         $year = date("o", strtotime('+1 day'));
         $mon = date('m',strtotime('+1 day'));
@@ -42,18 +67,13 @@ class ScheduleDataController extends Controller
             $year = date("o", strtotime('+3 day'));
             $mon = date('m',strtotime('+3 day'));
             $day = date('j',strtotime('+3 day'));
-        }  
+        }
+        
+        $date =  $year.'-'.$mon.'-'.$day;
+        $schedule_data = updateData(array('date' => $date));
 
-        // $schedule_data = DB::table('schedule_data')->select('date', $year.'-'.$mon.'-'.$day)->get();
-        // return view('schedules.resident.viewschedule',compact('schedule_data', 'year', 'mon', 'day'));
-        
-        #This is all going to need to change
-		$fp = fopen('../resources/Resident_Education_Report.20180612.csv', 'r');
-		$data['schedule'] = new Schedule($fp);
-		fclose($fp);
-		$data['element_ids'] = ["Date", "Location", "Room", "Case Procedures", "Lead Surgeon", "Patient Class", "Proc Start", "Proj End Time"];
-        
-        return view('schedules.resident.table_generator',compact('year', 'mon', 'day', 'data'));
+        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
+ 
     }
 
     public function getSecondDay()
@@ -67,14 +87,10 @@ class ScheduleDataController extends Controller
             $day = date('j',strtotime('+4 day'));
         }
 
-        // $schedule_data = DB::table('schedule_data')->select('date', $year.'-'.$mon.'-'.$day)->get();
-        // return view('schedules.resident.viewschedule',compact('schedule_data', 'year', 'mon', 'day'));
-		$fp = fopen('../resources/Resident_Education_Report.20180607.csv', 'r');
-		$data['schedule'] = new Schedule($fp);
-		fclose($fp);
-		$data['element_ids'] = ["Date", "Location", "Room", "Case Procedures", "Lead Surgeon", "Patient Class", "Proc Start", "Proj End Time"];
-        
-        return view('schedules.resident.table_generator',compact('year', 'mon', 'day', 'data'));
+        $date =  $year.'-'.$mon.'-'.$day;
+        $schedule_data = updateData(array('date' => $date));
+
+        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
     }
 
     public function getThirdDay()
@@ -87,15 +103,12 @@ class ScheduleDataController extends Controller
             $mon = date('m',strtotime('+5 day'));
             $day = date('j',strtotime('+5 day'));
         } 
-
-        // $schedule_data = DB::table('schedule_data')->select('date', $year.'-'.$mon.'-'.$day)->get();
-        // return view('schedules.resident.viewschedule',compact('schedule_data', 'year', 'mon', 'day'));
-		$fp = fopen('../resources/Resident_Education_Report.20180608.csv', 'r');
-		$data['schedule'] = new Schedule($fp);
-		fclose($fp);
-		$data['element_ids'] = ["Date", "Location", "Room", "Case Procedures", "Lead Surgeon", "Patient Class", "Proc Start", "Proj End Time"];
         
-        return view('schedules.resident.table_generator',compact('year', 'mon', 'day', 'data'));
+        $date =  $year.'-'.$mon.'-'.$day;
+        $schedule_data = updateData(array('date' => $date));
+
+        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
+
     }
 
 }
