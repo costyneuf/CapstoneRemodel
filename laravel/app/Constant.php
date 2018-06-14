@@ -22,4 +22,9 @@ class Constant extends Model
     const START_TIME = 6;
     const END_TIME = 7;
 
+    /**
+     * Output offset
+     */
+    const OFFSET_PROCEDURE = 9;
+
 }

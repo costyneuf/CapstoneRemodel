@@ -23,15 +23,33 @@
 			?>
 			@foreach ($schedule_data as $row)
 				<tr>
-				<?php
-					echo '<th>'.$count.'</th>';
-					echo '<th>'.$row->location.'</th>';
-					echo '<th>'.$row->room.'</th>';
-					echo '<th>'.$row->case_procedure.'</th>';
-					echo '<th>'.$row->lead_surgeon.'</th>';
-					echo '<th>'.$row->patient_class.'</th>';
-					echo '<th>'.$row->start_time.'</th>';
-					echo '<th>'.$row->end_time.'</th>';
+				<?php			
+
+					echo '<td>'.$count.'</td>';
+					echo '<td align="left">'.$row->location.'</td>';
+					echo '<td align="left">'.$row->room.'</td>';
+
+					/**
+					 * Display case procedures by list.
+					 */
+					echo '<td align="left">';
+
+						$case_procedure = $row->case_procedure;
+						// echo $case_procedure."\n".stripos(substr($case_procedure, 0), '[');
+						echo '<ol>';
+						while ($case_procedure != false)
+						{
+							$ep = stripos(substr($case_procedure, 0), '[');
+							echo '<li>'.substr($case_procedure, 0, $ep).'</li>';
+							$case_procedure = substr($case_procedure, ($ep + App\Constant::OFFSET_PROCEDURE));
+						}
+						echo '</ol>';
+					echo '</td>';
+
+					echo '<td align="left">'.$row->lead_surgeon.'</td>';
+					echo '<td align="left">'.$row->patient_class.'</td>';
+					echo '<td align="left">'.$row->start_time.'</td>';
+					echo '<td align="left">'.$row->end_time.'</td>';
 					$count = $count + 1;
 				?>
 				<td>
