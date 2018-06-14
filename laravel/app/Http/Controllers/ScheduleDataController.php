@@ -77,7 +77,8 @@ class ScheduleDataController extends Controller
         }
         
         $date =  $year.'-'.$mon.'-'.$day;
-        $schedule_data = self::updateData(array('date' => $date));
+        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $doctor,
+                                                'start_time' => $start_time, 'end_time' => $end_time));
 
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
  
@@ -97,7 +98,8 @@ class ScheduleDataController extends Controller
         }
 
         $date =  $year.'-'.$mon.'-'.$day;
-        $schedule_data = self::updateData(array('date' => $date));
+        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $doctor,
+                                                'start_time' => $start_time, 'end_time' => $end_time));
 
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
     }
@@ -114,8 +116,9 @@ class ScheduleDataController extends Controller
         } 
 
         $date =  $year.'-'.$mon.'-'.$day;
-        $schedule_data = self::updateData(array('date' => $date));
-
+        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $doctor,
+                                                'start_time' => $start_time, 'end_time' => $end_time));
+                                                
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
 
     }
