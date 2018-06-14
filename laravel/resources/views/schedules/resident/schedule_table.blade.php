@@ -1,7 +1,6 @@
 @extends('schedules.resident.schedule_basic')
 
 @section('table_generator')
-
 	@if(!is_null($schedule_data))
 		<table class="table table-striped table-bordered" id="sched_table">
 			<tr>

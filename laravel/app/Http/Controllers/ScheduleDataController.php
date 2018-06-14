@@ -17,7 +17,15 @@ class ScheduleDataController extends Controller
 {
 
     /**
-     * Private functions
+     * Protected members
+     */
+    protected $doctor = null;
+    protected $start_time = null;
+    protected $end_time = null;
+
+
+    /**
+     * Private functions.
      */
 
     /**
@@ -33,6 +41,16 @@ class ScheduleDataController extends Controller
         $start_time = !isset($args['start_time']) ? '00:00:00' : $args['start_time'];
         $end_time = !isset($args['end_time']) ? '23:59:59' : $args['end_time'];
 
+        if (strcmp($doctor, "null") == 0) {
+            $doctor = "TBD";
+        }
+        if (strcmp($start_time, "null") == 0) {
+            $start_time = "00:00:00";
+        }
+        if (strcmp($end_time, "null") == 0) {
+            $end_time = "23:59:59";
+        }
+
         $schedule_data = null;
         if (strcmp($doctor, "TBD") == 0)
         {
@@ -45,7 +63,7 @@ class ScheduleDataController extends Controller
                                 ->get();
         }
         else
-        {
+        {           
             $schedule_data = ScheduleData::whereDate('date', $date)
                                 ->where('lead_surgeon', $doctor)
                                 ->where('room', '<>', '')
@@ -59,11 +77,43 @@ class ScheduleDataController extends Controller
         return $schedule_data;
     }
 
+    private function processInput($doctor_start_time_end_time)
+    {
+        if ($doctor_start_time_end_time == null) return;
+
+        $tp = stripos($doctor_start_time_end_time, '_');
+        
+        /**
+         * Get doctor
+         */
+        $this->doctor = substr($doctor_start_time_end_time, 0, $tp);
+        str_replace("%20", " ", $this->doctor);
+
+        /**
+         * Get times
+         */
+        $time_string = substr($doctor_start_time_end_time, $tp + 1);
+        $tp = stripos($time_string, '_');
+        $this->start_time = substr($time_string, 0, $tp);
+        $this->end_time = substr($time_string, $tp + 1);
+
+        if (strcmp($this->doctor, "null") == 0) {
+            $this->doctor = null;
+        }
+        if (strcmp($this->start_time, "null") == 0) {
+            $this->start_time = null;
+        }
+        if (strcmp($this->end_time, "null") == 0) {
+            $this->end_time = null;
+        }
+
+    }
+
 
     /**
      * Public functions
      */
-    public function getFirstDay($doctor=null, $start_time=null, $end_time=null)
+    public function getFirstDay($doctor_start_time_end_time=null)
     {
         // Test
         // $parser = new ScheduleParser("20180613");
@@ -77,16 +127,17 @@ class ScheduleDataController extends Controller
         }
         
         $date =  $year.'-'.$mon.'-'.$day;
-        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $doctor,
-                                                'start_time' => $start_time, 'end_time' => $end_time));
+
+        $this->processInput($doctor_start_time_end_time);
+        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $this->doctor,
+                                                'start_time' => $this->start_time, 'end_time' => $this->end_time));
 
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
  
     }
 
-    public function getSecondDay($doctor=null, $start_time=null, $end_time=null)
+    public function getSecondDay($doctor_start_time_end_time=null)
     {
-
         $year = date("o", strtotime('+2 day'));
         $mon = date('m',strtotime('+2 day'));
         $day = date('j',strtotime('+2 day'));
@@ -101,14 +152,15 @@ class ScheduleDataController extends Controller
         // Test
         $parser = new ScheduleParser("20180614");
         $parser->processScheduleData("2018-06-18");
-        
-        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $doctor,
-                                                'start_time' => $start_time, 'end_time' => $end_time));
+
+        $this->processInput($doctor_start_time_end_time);
+        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $this->doctor,
+                                                'start_time' => $this->start_time, 'end_time' => $this->end_time));
 
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
     }
 
-    public function getThirdDay($doctor=null, $start_time=null, $end_time=null)
+    public function getThirdDay($doctor_start_time_end_time=null)
     {
         $year = date("o", strtotime('+3 day'));
         $mon = date('m',strtotime('+3 day'));
@@ -120,8 +172,10 @@ class ScheduleDataController extends Controller
         } 
 
         $date =  $year.'-'.$mon.'-'.$day;
-        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $doctor,
-                                                'start_time' => $start_time, 'end_time' => $end_time));
+
+        $this->processInput($doctor_start_time_end_time);
+        $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $this->doctor,
+                                                'start_time' => $this->start_time, 'end_time' => $this->end_time));
 
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
 

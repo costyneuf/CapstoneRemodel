@@ -18,47 +18,31 @@
         
     	<!--//doctor filter-->
     	<select id="doctors">
-            <option value="none">-Doctors-</option>
+            <option value="null">-Doctors-</option>
     	</select>
     	<!--//start after filter-->
     	<select id="start_after">
-    	    <option value="none">-Start After-</option>
-            @for($i=0; $i<12; $i++)
-                @if($i==0)
-                    <option value="12 am">12 AM</option>
-                @else
-                    <option value="' ,$i, ' am">{{$i}} AM</option>
-                @endif
+    	    <option value="null">-Start After-</option>
+            @for($i=0; $i<10; $i++)
+                <option value="0{{$i}}:00:00">0{{$i}}:00:00</option>
             @endfor
-            @for($i=0; $i<12; $i++)
-                @if($i==0)
-                    <option value="12 pm">12 PM</option>
-                @else
-                    <option value="',$i,' pm">{{$i}} PM</option>
-                @endif
+            @for($i=10; $i<24; $i++)
+                <option value="{{$i}}:00:00">{{$i}}:00:00</option>
             @endfor
     	</select>
 
     	<!--//end before filter-->
     	<select id="end_before">
-            <option value="none">-End Before-</option>
-            @for($i=0; $i<12; $i++)
-                @if($i==0)
-                    <option value="12 am">12 AM</option>
-                @else
-                    <option value="',$i,' am">{{$i}} AM</option>
-                @endif
+            <option value="null">-End Before-</option>
+            @for($i=0; $i<10; $i++)
+                <option value="0{{$i}}:00:00">0{{$i}}:00:00</option>
             @endfor
-            @for($i=0; $i<12; $i++)
-                @if($i==0)
-                    <option value="12 pm">12 PM</option>
-                @else
-                    <option value="',$i,' pm">{{$i}} PM</option>
-                @endif
+            @for($i=10; $i<24; $i++)
+                <option value="{{$i}}:00:00">{{$i}}:00:00</option>
             @endfor
         </select>
         
-    	<button type="button" class="btn btn-primary" onclick="">Filter</button>
+    	<button type="button" class="btn btn-primary" onclick="filterUpdate()">Filter</button>
 	</div>
 
 	<br><br>
@@ -91,6 +75,34 @@
             option.value = docs[i];
             option.text = docs[i];
             docList.appendChild(option);
+        }
+
+        // Update filter
+        function filterUpdate()
+        {
+            var doctor = document.getElementById("doctors");
+            var start_after = document.getElementById("start_after");
+            var end_before = document.getElementById("end_before");
+
+            var doctor_selected = doctor.options[doctor.selectedIndex].value;
+            var start_after_selected = start_after.options[start_after.selectedIndex].value;
+            var end_before_selected = end_before.options[end_before.selectedIndex].value;
+            
+            if (start_after_selected.localeCompare(end_before_selected) >= 0 && 
+                start_after_selected.localeCompare("null") != 0 && 
+                end_before_selected.localeCompare("null") != 0)
+            {
+                alert("Invalid selection!");
+                return;
+            }
+
+            /**
+             * Update url.
+             */
+            var current_url = window.location.href;
+            var url = current_url.search('/%') > -1 ? current_url.substr(0, current_url.search('/%')) : current_url;
+            url = url + "/%" + doctor_selected + "_" + start_after_selected + "_" + end_before_selected;
+            window.location.href = url;
         }
         
     </script>
