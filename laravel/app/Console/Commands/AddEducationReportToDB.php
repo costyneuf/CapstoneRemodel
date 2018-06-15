@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\ScheduleParser;
 
 class AddEducationReportToDB extends Command
 {
@@ -11,14 +12,14 @@ class AddEducationReportToDB extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'educationReport:add {date} {--process=*}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Test data insertion from .csv file into database table.';
 
     /**
      * Create a new command instance.
@@ -37,6 +38,11 @@ class AddEducationReportToDB extends Command
      */
     public function handle()
     {
-        //
+        $parser = new ScheduleParser($this->argument('date'));
+        $process_date = $this->option('process');
+        foreach($process_date as $date)
+        {
+            $parser->processScheduleData($date);
+        }
     }
 }

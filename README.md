@@ -11,7 +11,9 @@ Test the following features with corresponding commands in command window for yo
 
 ### Write Resident_Education_Report.yearmonthday.csv into Database
 
-e.g. Insert data from Resident_Education_Report.20180615.csv file into database table.
+e.g. Insert data from Resident_Education_Report.20180615.csv file into database table, and combine data sets 
+for the next three days.
+
 ```
-php artisan AddEducationReportToDB 20180615
+php artisan educationReport:add 20180615 --process=2018-06-16 --process=2018-06-17 --process=2018-06-18
 ```

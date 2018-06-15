@@ -115,8 +115,10 @@ class ScheduleDataController extends Controller
      */
     public function getFirstDay($doctor_start_time_end_time=null)
     {
-        // Test
-        // $parser = new ScheduleParser("20180613");
+        // // Test
+        // $parser = new ScheduleParser("20180614");
+        // $parser->processScheduleData();
+
         $year = date("o", strtotime('+1 day'));
         $mon = date('m',strtotime('+1 day'));
         $day = date('j',strtotime('+1 day'));
@@ -148,10 +150,6 @@ class ScheduleDataController extends Controller
         }
 
         $date =  $year.'-'.$mon.'-'.$day;
-        
-        // // Test
-        // $parser = new ScheduleParser("20180614");
-        // $parser->processScheduleData("2018-06-18");
 
         $this->processInput($doctor_start_time_end_time);
         $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $this->doctor,
