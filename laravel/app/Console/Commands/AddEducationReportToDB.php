@@ -38,7 +38,7 @@ class AddEducationReportToDB extends Command
      */
     public function handle()
     {
-        $parser = new ScheduleParser($this->argument('date'));
+        $parser = new ScheduleParser($this->argument('date'), true);
         $process_date = $this->option('process');
         foreach($process_date as $date)
         {

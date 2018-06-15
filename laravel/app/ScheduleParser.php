@@ -103,9 +103,10 @@ class ScheduleParser extends Model
 	 * @var string
 	 * 		{@code date} Formate: "year" + "month" + "day"
 	 */
-    public function __construct($datefile)
+    public function __construct($datefile, $isConsole=false)
 	{	
-		$this->filepath = Constant::PATH.$datefile.Constant::EXTENSION;
+		$this->filepath = $isConsole ? Constant::CONSOLE_PATH.$datefile.Constant::EXTENSION 
+							:Constant::WEB_PATH.$datefile.Constant::EXTENSION;
 
 		/**
 		 * Assign value to date
