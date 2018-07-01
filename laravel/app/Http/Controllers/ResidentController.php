@@ -31,7 +31,11 @@ class ResidentController extends Controller
             $year = date("o", strtotime('+3 day'));
             $mon = date('m',strtotime('+3 day'));
             $day = date('j',strtotime('+3 day'));
-        }      
+        } else if (date("l", strtotime('today'))=='Saturday') {
+            $year = date("o", strtotime('+2 day'));
+            $mon = date('m',strtotime('+2 day'));
+            $day = date('j',strtotime('+2 day'));
+        }
         return view ('schedules.resident.viewschedule', compact('year', 'mon', 'day'));
     }
 
@@ -44,6 +48,10 @@ class ResidentController extends Controller
             $year = date("o", strtotime('+4 day'));
             $mon = date('m',strtotime('+4 day'));
             $day = date('j',strtotime('+4 day'));
+        } else if (date("l", strtotime('today'))=='Saturday') {
+            $year = date("o", strtotime('+3 day'));
+            $mon = date('m',strtotime('+3 day'));
+            $day = date('j',strtotime('+3 day'));
         }
         return view ('schedules.resident.viewschedule', compact('year', 'mon', 'day'));
     }
@@ -58,6 +66,10 @@ class ResidentController extends Controller
             $year = date("o", strtotime('+5 day'));
             $mon = date('m',strtotime('+5 day'));
             $day = date('j',strtotime('+5 day'));
+        } else if (date("l", strtotime('today'))=='Saturday') {
+            $year = date("o", strtotime('+4 day'));
+            $mon = date('m',strtotime('+4 day'));
+            $day = date('j',strtotime('+4 day'));
         }
         return view ('schedules.resident.viewschedule', compact('year', 'mon', 'day'));
     }
