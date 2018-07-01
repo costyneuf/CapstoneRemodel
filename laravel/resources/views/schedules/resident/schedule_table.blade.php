@@ -45,7 +45,7 @@
 						echo '</ol>';
 					echo '</td>';
 
-					echo '<td align="left">'.$row->lead_surgeon.'</td>';
+					echo '<td align="left">'.substr($row->lead_surgeon, 0, stripos($row->lead_surgeon, '[')).'</td>';
 					echo '<td align="left">'.$row->patient_class.'</td>';
 					echo '<td align="left">'.$row->start_time.'</td>';
 					echo '<td align="left">'.$row->end_time.'</td>';
