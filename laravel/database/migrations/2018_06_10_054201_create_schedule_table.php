@@ -17,16 +17,17 @@ class CreateScheduleTable extends Migration
             $table->increments('id');
 
             $table->date('date');
-            $table->text('location');
-            $table->text('room');
-            $table->longText('case_procedure');
-            $table->text('lead_surgeon');
-            $table->longText('patient_class');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->text('location')->nullable();
+            $table->text('room')->nullable();
+            $table->longText('case_procedure')->nullable();
+            $table->text('lead_surgeon')->nullable();
+            $table->longText('patient_class')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
 
             $table->timestamps();
         });
+ 
     }
 
     /**
