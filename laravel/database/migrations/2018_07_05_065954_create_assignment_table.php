@@ -17,7 +17,7 @@ class CreateAssignmentTable extends Migration
             $table->increments('id');
             $table->date('date');
             $table->unsignedInteger('resident');
-            $table->unsignedInteger('schedule');            
+            $table->unsignedInteger('schedule')->unique();            
             $table->unsignedInteger('attending');        
             $table->timestamps();
         });
