@@ -28,9 +28,9 @@ Route::prefix('resident')->group(function () {
     Route::get('schedule/secondday','ScheduleDataController@getSecondDay');
     Route::get('schedule/thirdday','ScheduleDataController@getThirdDay');
 
-    Route::get('schedule/firstday/%{doctor_start_time_end_time}', 'ScheduleDataController@getFirstDay');        
-    Route::get('schedule/secondday/%{doctor_start_time_end_time}','ScheduleDataController@getSecondDay');
-    Route::get('schedule/thirdday/%{doctor_start_time_end_time}','ScheduleDataController@getThirdDay');    
+    Route::get('schedule/firstday/filter/{doctor_start_time_end_time}', 'ScheduleDataController@getFirstDay');        
+    Route::get('schedule/secondday/filter/{doctor_start_time_end_time}','ScheduleDataController@getSecondDay');
+    Route::get('schedule/thirdday/filter/{doctor_start_time_end_time}','ScheduleDataController@getThirdDay');    
     
     Route::get('instructions','ResidentController@getInstructions');
 });

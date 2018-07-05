@@ -61,9 +61,10 @@
         // Get all unique doctor names and sort by alphabetical order
         for(var i = 0; i < tab.rows.length; i++){
             if(i != 0){
-                var element = tab.rows[i].cells[4].innerHTML;
+                var element = tab.rows[i].cells[4].id;
                 if(!docs.includes(element)){
                     docs.push(element);
+                    //console.log(element);
                 }
             }
         }
@@ -73,7 +74,7 @@
         for(var i = 0; i < docs.length; i++){
             var option = document.createElement("option");
             option.value = docs[i];
-            option.text = docs[i];
+            option.text = docs[i].substr(0, docs[i].indexOf('['));
             docList.appendChild(option);
         }
 
@@ -100,8 +101,8 @@
              * Update url.
              */
             var current_url = window.location.href;
-            var url = current_url.search('/%') > -1 ? current_url.substr(0, current_url.search('/%')) : current_url;
-            url = url + "/%" + doctor_selected + "_" + start_after_selected + "_" + end_before_selected;
+            var url = current_url.search('/filter/') > -1 ? current_url.substr(0, current_url.search('/filter/')) : current_url;
+            url = url + "/filter/" + doctor_selected + "_" + start_after_selected + "_" + end_before_selected;
             window.location.href = url;
         }
         

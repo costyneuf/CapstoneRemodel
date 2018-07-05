@@ -45,7 +45,7 @@ class ScheduleParser extends Model
 	private static function getLineTime($line, $index)
 	{
 
-		if (strcmp($line[$index], "") == 0) return "";
+		if (strcmp($line[$index], "") == 0) return null;
 		$hourInt = intval(substr($line[$index], 0, 2));
 		$minuteInt = intval(substr($line[$index], 2));
 		
@@ -133,15 +133,16 @@ class ScheduleParser extends Model
 		{
 			if ($data_arr[$i]['room'] == $data_arr[$i + 1]['room'])
 			{
+
 				/**
 				 * Updates $data_arr[$i + 1]
 				 */
-				if($data_arr[$i]['start_time'] < $data_arr[$i + 1]['start_time'])
+				if($data_arr[$i]['start_time'] == null || $data_arr[$i]['start_time'] < $data_arr[$i + 1]['start_time'])
 				{
 					ScheduleData::where('id', $data_arr[$i + 1]['id'])
 								->update(['start_time'=> $data_arr[$i]['start_time']]);
 				}
-				if($data_arr[$i]['end_time'] > $data_arr[$i + 1]['end_time'])
+				if($data_arr[$i]['end_time'] == null || $data_arr[$i]['end_time'] > $data_arr[$i + 1]['end_time'])
 				{
 					ScheduleData::where('id', $data_arr[$i + 1]['id'])
 								->update(['end_time'=> $data_arr[$i]['end_time']]);
