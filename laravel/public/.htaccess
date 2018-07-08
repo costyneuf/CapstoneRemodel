@@ -19,3 +19,20 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+
+<IfModule mod_shib_22.so>
+    ShibUseHeaders On
+    AuthType shibboleth
+    ShibRequestSetting redirectToSSL 443
+    ShibRequestSetting requireSession 1
+    Require shib-session
+</IfModule>
+
+<IfModule mod_shib_24.so>
+    ShibUseHeaders On
+    AuthType shibboleth
+    ShibRequestSetting redirectToSSL 443
+    ShibRequestSetting requireSession 1
+    Require shib-session
+</IfModule>
