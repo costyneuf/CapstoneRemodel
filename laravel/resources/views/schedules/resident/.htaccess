@@ -1,6 +1,0 @@
-# Handle shibboleth
-ShibUseHeaders On
-AuthType shibboleth
-ShibRequestSetting redirectToSSL 443
-ShibRequestSetting requireSession 1
-Require shib-session
