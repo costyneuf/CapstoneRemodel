@@ -27,34 +27,30 @@
                 </tr>
                 <tr>
                     <td align="left">First Next Week Day</td>
-                    @if ($data['firstday'] == null)
-                        <td align="left">TBD</td>
-                    @else
-                        <td align="left">{{ $data['firstday'] }}</td>
+                    <td align="left">
+                    @if ($data['firstday'] != null)
+                        {{ $data['firstday'] }}
                     @endif
+                    </td>
                 </tr>
                 <tr>
                     <td align="left">Second Next Week Day</td>
                     <td align="left">
-                        @foreach($data['secondday'] as $choice)
-                            @if ($choice == null)
-                                <li>TBD</li>
-                            @else
+                        @foreach ($data['secondday'] as $choice)
+                            @if ($choice != null)
                                 <li>{{ $choice }}</li>
                             @endif
-                        @endforeach                        
+                        @endforeach
                     </td>
                 </tr>  
                 <tr>
                     <td align="left">Third Next Week Day</td>
                     <td align="left">
-                        @foreach($data['thirdday'] as $choice)
-                        @if ($choice == null)
-                            <li>TBD</li>
-                        @else
-                            <li>{{ $choice }}</li>
-                        @endif
-                        @endforeach   
+                        @foreach ($data['thirdday'] as $choice)
+                            @if ($choice != null)
+                                <li>{{ $choice }}</li>
+                            @endif
+                        @endforeach
                     </td>   
                 </tr>                              
             </table>
