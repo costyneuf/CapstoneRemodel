@@ -65,6 +65,7 @@ class AdminController extends Controller
         if ($name == null) {
             $name = "null";
         }
+        str_replace("%20", " ", $name);
         $data = array(
             'op'=>$op,
             'role'=>$role,
@@ -85,7 +86,9 @@ class AdminController extends Controller
             if (strcmp($op, "deleteUser") == 0) {
                 Attending::where('email', $email)->delete();
             } else if (strcmp($op, "addUser") == 0 && Attending::where('email', $email)->count() == 0) {
-                Attending::insert(['name'=>$name, 'email'=>$email]);
+                $id = substr($name, strpos($name, "<")+1, strpos($name, ">")-strpos($name, "<")-1);
+                $name_ = substr($name, 0, strpos($name, "<"));
+                Attending::insert(['name'=>$name_, 'email'=>$email, 'id'=>$id]);
             } 
         } else if (strcmp($role, "Resident") == 0) {
             if (strcmp($op, "deleteUser") == 0) {
