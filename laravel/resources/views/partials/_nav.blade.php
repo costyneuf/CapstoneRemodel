@@ -17,10 +17,24 @@
                     <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/about">About Me</a>
+                    <a class="nav-link" href="/about" id="about">About Me</a>
+                    <script>
+                        document.getElementById("about").href = window.location.pathname + "/about";
+                        //if (window.location.pathname == "/")
+                        //{
+                        //    document.getElementById("return").style.visibility = "hidden";
+                        //}
+                    </script> 
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contact">Contact Me</a>
+                    <a class="nav-link" href="/contact" id="contact">Contact Me</a>
+                    <script>
+                            document.getElementById("contact").href = window.location.pathname + "/contact";
+                            //if (window.location.pathname == "/")
+                            //{
+                            //    document.getElementById("return").style.visibility = "hidden";
+                            //}
+                    </script> 
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

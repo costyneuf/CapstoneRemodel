@@ -1,8 +1,6 @@
 @extends('main')
 @section('content')
-	<a class="btn btn-primary" href="resident">Resident Login</a>
-	
-	<br><br>
-	
-	<a class="btn btn-primary" href="admin">Admin Login</a>
+	<a class="btn btn-primary" href="resident">Resident Page</a>	
+	<br><br>	
+	<a class="btn btn-primary" href="admin">Admin Page</a>
 @endsection
