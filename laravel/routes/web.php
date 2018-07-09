@@ -40,6 +40,13 @@ Route::prefix('admin')->group(function () {
     Route::get('home', 'PagesController@getIndex');
     Route::get('about', 'PagesController@getAbout');
     Route::get('contact','PagesController@getContact');
+
+    Route::get('users', 'AdminController@getUsers');
+    Route::get('users/{op}/{role}/{email}/{flag}/{name?}', 'AdminController@getUpdateUsers');
+
+    Route::get('schedules', 'AdminController@getSchedules');
+
+    Route::get('postmessage', 'AdminController@getMessages');
 });
 
 
