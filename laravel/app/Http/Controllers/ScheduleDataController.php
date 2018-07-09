@@ -12,6 +12,7 @@ use App\ScheduleData;
 use App\ScheduleParser;
 use App\Resident;
 use App\Option;
+use App\Admin;
 
 class ScheduleDataController extends Controller
 {
@@ -193,6 +194,10 @@ class ScheduleDataController extends Controller
 
     public function getChoice($id, $choice, $flag=null)
     {
+        if (!Resident::where('email', $_SERVER["HTTP_EMAIL"])->exists()) {
+            return view('nonpermit');
+        }
+
         $schedule_data = ScheduleData::where('id', $id)->get();
         $input = array(
             'id'=>$id, 'choice'=>$choice

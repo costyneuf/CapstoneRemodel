@@ -99,7 +99,8 @@ class PagesController extends Controller
         if ($admin->ifExist($email))
         {
             array_push($roles, "Admin");
-        } else if ($resident->ifExist($email))
+        } 
+        if ($resident->ifExist($email))
         {
             array_push($roles, "Resident");
         }
