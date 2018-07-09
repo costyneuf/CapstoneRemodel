@@ -18,7 +18,7 @@
                     @if (count($data['roles']) > 0)
                         <td align="left">
                         @foreach($data['roles'] as $role)
-                            <li>{{ $role }}</li>
+                            <p>{{ $role }}</p>
                         @endforeach
                         </td>
                     @else
@@ -38,7 +38,7 @@
                     <td align="left">
                         @foreach ($data['secondday'] as $choice)
                             @if ($choice != null)
-                                <li>{{ $choice }}</li>
+                                <p>{{ $choice }}</p>
                             @endif
                         @endforeach
                     </td>
@@ -48,7 +48,7 @@
                     <td align="left">
                         @foreach ($data['thirdday'] as $choice)
                             @if ($choice != null)
-                                <li>{{ $choice }}</li>
+                                <p>{{ $choice }}</p>
                             @endif
                         @endforeach
                     </td>   

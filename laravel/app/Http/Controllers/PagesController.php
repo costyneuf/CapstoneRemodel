@@ -9,6 +9,7 @@ use App\Resident;
 use App\Attending;
 use App\Option;
 use App\ScheduleData;
+use App\Assignment;
 
 class PagesController extends Controller
 {
@@ -52,7 +53,7 @@ class PagesController extends Controller
         $start_t = ScheduleData::where('id', $id)->value('start_time');
         $end_t = ScheduleData::where('id', $id)->value('end_time');
 
-        return $date.", ".$location.", ".$room.", ".$patient.", ".$start_t.", ".$end_t;
+        return $date.", ".$room.", ".$patient.", ".$start_t." - ".$end_t;
     }
 
     private function processChoices($date, $id)
@@ -105,10 +106,11 @@ class PagesController extends Controller
             array_push($roles, "Resident");
         }
 
-        // TODO: Update user schedule here
+        // Update user schedule here
         $id = Resident::where('email', $_SERVER["HTTP_EMAIL"])->value('id');
         $date = self::calculateFirst();
-        $firstday = null;
+        $firstday_id = Assignment::where('date', $date)->where('resident', $id)->value('schedule');
+        $firstday = self::processSingleChoice($firstday_id);
 
         $date = self::calculateSecond();
         $secondday = self::processChoices($date, $id);
