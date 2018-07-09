@@ -18,6 +18,12 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    ShibUseHeaders On
+    AuthType shibboleth
+    ShibRequestSetting redirectToSSL 443
+    ShibRequestSetting requireSession 1
+    Require shib-session
 </IfModule>
 
 

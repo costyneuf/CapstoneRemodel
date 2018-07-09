@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Constant;
 
 class UpdateScheduleData extends Command
 {
@@ -42,7 +43,7 @@ class UpdateScheduleData extends Command
         $year = $today['year'];
         $month = $today['mon'] >= 10 ? $today['mon'] : '0'.$today['mon'];
         $day = $today['mday'] >= 10 ? $today['mday'] : '0'.$today['mday'];
-        $file_string = "Resources/Resident_Education_Report.".$year.$month.$day.".csv";
+        $file_string = CONSTANT::WEB_PATH.$year.$month.$day.CONSTANT::EXTENSION;
         
         $fp = fopen($file_string, 'r');       
         fgetcsv($fp);
