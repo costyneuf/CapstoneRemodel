@@ -19,7 +19,8 @@ class CreateOptionTable extends Migration
             $table->unsignedInteger('resident');
             $table->unsignedInteger('schedule');            
             $table->unsignedInteger('attending');
-            $table->unsignedInteger('option');            
+            $table->unsignedInteger('option');
+            $table->longText('reason')->nullable();            
             $table->timestamps();
         });
     }

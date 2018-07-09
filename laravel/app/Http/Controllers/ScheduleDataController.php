@@ -206,8 +206,6 @@ class ScheduleDataController extends Controller
         
         if ($flag != null)
         {
-
-
             $date = $schedule_data[0]['date'];
             $resident_data = Resident::where('email', $_SERVER["HTTP_EMAIL"])->get();
             $resident = $resident_data[0]['id'];
@@ -231,7 +229,9 @@ class ScheduleDataController extends Controller
                 'attending' => $attending, 'option' => $choice]
             );
             
-            return view('schedules.resident.schedule_update');
+            $room = $schedule_data[0]['room'];
+            $attending = substr($attending_string, 0, strpos($attending_string, "["));
+            return view('schedules.resident.milestone', compact('room', 'attending'));
         }
 
         return view('schedules.resident.schedule_confirm', compact('schedule_data', 'input'));
