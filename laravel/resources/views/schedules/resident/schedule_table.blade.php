@@ -5,7 +5,6 @@
 		<table class="table table-striped table-bordered" id="sched_table">
 			<tr>
 				<th>No.</th>
-				<th>Loction</th>
 				<th>Room</th>
 				<th>Case Procedures</th>
 				<th>Lead Surgeon</th>
@@ -25,7 +24,6 @@
 				<?php			
 
 					echo '<td>'.$count.'</td>';
-					echo '<td align="left">'.$row->location.'</td>';
 					echo '<td align="left">'.$row->room.'</td>';
 
 					/**
