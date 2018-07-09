@@ -15,7 +15,7 @@ class Roles extends Model
     public function ifExist($email)
     {
         if (self::where('email', $email)->count() > 0) {
-            self::where('email', $email)->update(['name'=> $__SERVER['HTTP_DISPLAYNAME']]);
+            self::where('email', $email)->update(['name'=> $_SERVER['HTTP_DISPLAYNAME']]);
             return true;
          }
          return false;

@@ -52,15 +52,15 @@
 					$count = $count + 1;
 				?>
 				<td>
-					<select onchange = "changePreferences(this);" class = "PreferenceSelector" id = "Pref{{$count}}">
+					<select class = "PreferenceSelector" id = "{{ $row->id }}_">
 						<option disabled selected="selected" value= "default">Choose here</option>
-						<option value= "first">First</option>
-						<option value= "second">Second</option>
-						<option value= "third">Third</option>
+						<option value= "1">First</option>
+						<option value= "2">Second</option>
+						<option value= "3">Third</option>
 					</select>
 				</td>
 				<td>
-						<input align = "center" type="button" value="Select" id='.$row->id.' class='btn btn-md btn-success' onclick="storePreference($row->id);">						
+						<input align = "center" type="button" value="Select" id="{{ $row->id }}" class='btn btn-md btn-success' onclick="storePreference(this.id);">						
 				</td>
 				</tr>
 			@endforeach

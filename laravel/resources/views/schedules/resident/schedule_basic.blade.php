@@ -110,19 +110,13 @@
 
     <!--Preference JS -->
     <script type="text/javascript">
-        // Store username, selected data id, preferences into database.
         function storePreference(id)
         {
-
+            var current_url = window.location.href;
+            var url = current_url.substr(0, current_url.search('/schedule/'));
+            url = url + "/schedule/" + id + "/" + document.getElementById(id+"_").value;
+            window.location.href = url;
         }
-
-
-        // Generate a warning box if selection has been made
-        function checkPreference()
-        {
-
-        }
-
     </script>
     
 @endsection('content')
