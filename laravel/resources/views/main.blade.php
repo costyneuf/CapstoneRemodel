@@ -5,7 +5,9 @@
     </head>
     <body>
         @include('partials._nav')
-        <div class="container"> 
+        <div class="container">
+            <h1>Hello, <?php echo $_SERVER["HTTP_DISPLAYNAME"]; ?></h1> 
+            <br><br>
             @yield('content')   
             <br><br><br>
             <input align = "left" type="button" value="Return" id="return" class='btn btn-md btn-success' onclick="goBack();">

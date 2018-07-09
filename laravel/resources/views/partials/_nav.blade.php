@@ -17,7 +17,7 @@
                     <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/about" id="about">About Me</a>
+                    <a class="nav-link" href="/about" id="about">Personal Information</a>
                     <script>
                         document.getElementById("about").href = window.location.pathname + "/about";
                         //if (window.location.pathname == "/")
@@ -27,7 +27,7 @@
                     </script> 
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contact" id="contact">Contact Me</a>
+                    <a class="nav-link" href="/contact" id="contact">Contact Us</a>
                     <script>
                             document.getElementById("contact").href = window.location.pathname + "/contact";
                             //if (window.location.pathname == "/")

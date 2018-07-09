@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Roles;
 
-class Admin extends Model
+class Admin extends Roles
 {
     /**
      * The table associated with the model.
@@ -19,4 +20,5 @@ class Admin extends Model
      * @var bool
      */
     public $timestamps = false;
+
 }
