@@ -1,3 +1,9 @@
+body,html{  
+    margin:0;  
+    padding:0;  
+    height:100%;  
+}  
+
 th{
 	text-align: center;
 }
@@ -40,6 +46,8 @@ th{
     
 
 #footer-wrap{
+    position: absolute;
+    bottom:0;
     min-height: 50px;
     background-color: #666666; 
     color: #FFF;

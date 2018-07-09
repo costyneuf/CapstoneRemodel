@@ -2,7 +2,9 @@
 
 @section('content')
     <h1><?php
+        date_default_timezone_set('America/New_York');
         echo "Today's Date: ".date("l", strtotime('today')),' ', date('F',strtotime('today')),' ',date('j',strtotime('today'));
+        echo "<br>Visit Time: ".date('h:i:s a', time());
     ?></h1>
     <br><br><br>
     <h5>Select Your Date</h5>
