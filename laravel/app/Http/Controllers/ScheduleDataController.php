@@ -13,6 +13,7 @@ use App\ScheduleParser;
 use App\Resident;
 use App\Option;
 use App\Admin;
+use App\Assignment;
 
 class ScheduleDataController extends Controller
 {
@@ -75,7 +76,23 @@ class ScheduleDataController extends Controller
                                 ->get();
         }
 
-        return $schedule_data;
+        $schedule = array();
+        foreach ($schedule_data as $data)
+        {
+            $resident = null;
+            if (Assignment::where('schedule', $data['id'])->exists())
+            {
+                $resident_id = Assignment::where('schedule', $data['id'])->value('resident');
+                $resident = Resident::where('id', $resident_id)->value('name');
+            }
+            array_push($schedule, array(
+                'date'=>$data['date'], 'room'=>$data['room'], 'lead_surgeon'=>$data['lead_surgeon'],
+                'id'=>$data['id'], 'resident'=>$resident, 'case_procedure'=>$data['case_procedure'],
+                'patient_class'=>$data['patient_class'], 'start_time'=>$data['start_time'], 'end_time'=>$data['end_time']
+            ));
+        }
+
+        return $schedule;
     }
 
     private function processInput($doctor_start_time_end_time)
@@ -138,8 +155,9 @@ class ScheduleDataController extends Controller
         $this->processInput($doctor_start_time_end_time);
         $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $this->doctor,
                                                 'start_time' => $this->start_time, 'end_time' => $this->end_time));
+        $flag = 1;
 
-        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
+        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day', 'flag'));
  
     }
 
@@ -163,8 +181,9 @@ class ScheduleDataController extends Controller
         $this->processInput($doctor_start_time_end_time);
         $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $this->doctor,
                                                 'start_time' => $this->start_time, 'end_time' => $this->end_time));
+        $flag = null;
 
-        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
+        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day', 'flag'));
     }
 
     public function getThirdDay($doctor_start_time_end_time=null)
@@ -187,8 +206,9 @@ class ScheduleDataController extends Controller
         $this->processInput($doctor_start_time_end_time);
         $schedule_data = self::updateData(array('date' => $date, 'lead_surgeon' => $this->doctor,
                                                 'start_time' => $this->start_time, 'end_time' => $this->end_time));
+        $flag = null;
 
-        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day'));
+        return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day', 'flag'));
 
     }
 
