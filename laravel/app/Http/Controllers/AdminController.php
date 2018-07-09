@@ -102,12 +102,12 @@ class AdminController extends Controller
 
     public function getSchedules()
     {
-
+        return view('schedules.admin.schedules');
     }
 
     public function getMessages()
     {
-
+        return view('schedules.admin.messages');
     }
 
 }
