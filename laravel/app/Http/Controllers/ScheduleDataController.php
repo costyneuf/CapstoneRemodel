@@ -136,7 +136,7 @@ class ScheduleDataController extends Controller
         // // Test
         // $parser = new ScheduleParser("20180614");
         // $parser->processScheduleData();
-
+        date_default_timezone_set('America/New_York');
         $year = date("o", strtotime('+1 day'));
         $mon = date('m',strtotime('+1 day'));
         $day = date('j',strtotime('+1 day'));
@@ -163,6 +163,7 @@ class ScheduleDataController extends Controller
 
     public function getSecondDay($doctor_start_time_end_time=null)
     {
+        date_default_timezone_set('America/New_York');
         $year = date("o", strtotime('+2 day'));
         $mon = date('m',strtotime('+2 day'));
         $day = date('j',strtotime('+2 day'));
@@ -188,6 +189,7 @@ class ScheduleDataController extends Controller
 
     public function getThirdDay($doctor_start_time_end_time=null)
     {
+        date_default_timezone_set('America/New_York');
         $year = date("o", strtotime('+3 day'));
         $mon = date('m',strtotime('+3 day'));
         $day = date('j',strtotime('+3 day'));
