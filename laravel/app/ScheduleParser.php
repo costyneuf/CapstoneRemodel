@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Constant;
 use App\ScheduleData;
+use App\Option;
 
 class ScheduleParser extends Model
 {
@@ -150,7 +151,13 @@ class ScheduleParser extends Model
 				$case_procedure = $data_arr[$i]['case_procedure'].", ".$data_arr[$i+1]['case_procedure'];
 				ScheduleData::where('id', $data_arr[$i + 1]['id'])
 							->update(['case_procedure'=> $case_procedure]);
-
+				
+				if (Option::where('schedule', $data_arr[$i]['id'])->exists()) {
+					$tmp = Option::where('schedule', $data_arr[$i]['id'])->get();
+					foreach($tmp as $row) {
+						$row['resident'] = $data_arr[$i + 1]['id'];
+					}
+				}
 
 				// Delete data query
 				ScheduleData::where('id', $data_arr[$i]['id'])->delete();

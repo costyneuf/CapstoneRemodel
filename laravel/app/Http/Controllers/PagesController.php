@@ -109,8 +109,11 @@ class PagesController extends Controller
         // Update user schedule here
         $id = Resident::where('email', $_SERVER["HTTP_EMAIL"])->value('id');
         $date = self::calculateFirst();
-        $firstday_id = Assignment::where('date', $date)->where('resident', $id)->value('schedule');
-        $firstday = self::processSingleChoice($firstday_id);
+        $firstday = null;
+        if (Assignment::where('date', $date)->where('resident', $id)->exists()) {
+            $firstday_id = Assignment::where('date', $date)->where('resident', $id)->value('schedule');
+            $firstday = self::processSingleChoice($firstday_id);
+        }
 
         $date = self::calculateSecond();
         $secondday = self::processChoices($date, $id);

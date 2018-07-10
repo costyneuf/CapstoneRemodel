@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Admin;
 use App\Attending;
 use App\Resident;
+use App\Option;
+use App\Assignment;
 
 class AdminController extends Controller
 {   
@@ -65,7 +67,9 @@ class AdminController extends Controller
         if ($name == null) {
             $name = "null";
         }
+        
         str_replace("%20", " ", $name);
+        
         $data = array(
             'op'=>$op,
             'role'=>$role,
@@ -73,30 +77,43 @@ class AdminController extends Controller
             'flag'=>$flag,
             'name'=>$name
         );
+        
         if (strcmp($flag, "false") == 0) {
             return view('schedules.admin.users_confirm', compact('data'));
         } 
+        
         if (strcmp($role, "Admin") == 0) {
             if (strcmp($op, "deleteUser") == 0) {
                 Admin::where('email', $email)->delete();
             } else if (strcmp($op, "addUser") == 0 && Admin::where('email', $email)->count() == 0) {
                 Admin::insert(['name'=>$name, 'email'=>$email]);
             } 
-        } else if (strcmp($role, "Attending") == 0) {
+        } 
+        else if (strcmp($role, "Attending") == 0) {
             if (strcmp($op, "deleteUser") == 0) {
+                $attending_id = Attending::where('email', $email)->value('id');
                 Attending::where('email', $email)->delete();
+                Assignment::where('attending', $attending_id)->delete();
+                Option::where('attending', $attending_id)->delete();
+
             } else if (strcmp($op, "addUser") == 0 && Attending::where('email', $email)->count() == 0) {
                 $id = substr($name, strpos($name, "<")+1, strpos($name, ">")-strpos($name, "<")-1);
                 $name_ = substr($name, 0, strpos($name, "<"));
                 Attending::insert(['name'=>$name_, 'email'=>$email, 'id'=>$id]);
             } 
-        } else if (strcmp($role, "Resident") == 0) {
+        } 
+        else if (strcmp($role, "Resident") == 0) {
             if (strcmp($op, "deleteUser") == 0) {
+                $resident_id = Resident::where('email', $email)->value('id');
                 Resident::where('email', $email)->delete();
+                Assignment::where('resident', $resident_id)->delete();
+                Option::where('resident', $resident_id)->delete();
+
             } else if (strcmp($op, "addUser") == 0 && Resident::where('email', $email)->count() == 0) {
                 Resident::insert(['name'=>$name, 'email'=>$email]);
             } 
         }
+        
         return view('schedules.admin.users_update');
     }
 

@@ -61,7 +61,7 @@
         // Get all unique doctor names and sort by alphabetical order
         for(var i = 0; i < tab.rows.length; i++){
             if(i != 0){
-                var element = tab.rows[i].cells[4].id;
+                var element = tab.rows[i].cells[3].id;
                 if(!docs.includes(element)){
                     docs.push(element);
                     //console.log(element);
