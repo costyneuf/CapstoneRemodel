@@ -42,9 +42,12 @@
             </tr>
             <tr>
                 <td align="left">Date</td>
-                <td align="left">{{ $date }}</td>
+                <td align="left">{{ $data_date }}</td>
             </tr>
-                            
+            <tr>
+                <td align="left">Email</td>
+                <td align="left">{{ $email }}</td>
+            </tr>           
         </table>
     @endif
 @endsection

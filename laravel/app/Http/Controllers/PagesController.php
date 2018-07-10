@@ -134,4 +134,14 @@ class PagesController extends Controller
     public function getContact() {
         return view('pages.contact');
     }
+
+    public function getFeedback($date) {
+
+        $year = substr($date, 0, 4);
+        $mon = substr($date, 4, 2);
+        $day = substr($date, 6, 2);
+        $data_date = $year."-".$mon."-".$day;
+
+        return view('pages.feedback', compact('data_date'));
+    }
 }

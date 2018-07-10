@@ -51,4 +51,8 @@ Route::prefix('admin')->group(function () {
     Route::get('postmessage', 'AdminController@getMessages');
 });
 
+Route::prefix('survey')->group(function() {
+    Route::get('{date}', 'PagesController@getFeedback');
+});
+
 
