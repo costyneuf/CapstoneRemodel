@@ -7,6 +7,8 @@
 
 ## Commands for test
 
+Command: "phpunit" under the root directory
+If the phpunit doesn't work, try "composer global require phpunit/phpunit". Set the phpunit command as the global scope.
 Test the following features with corresponding commands in command window for your local repository.
 
 ### Write Resident_Education_Report.yearmonthday.csv into Database
@@ -26,3 +28,4 @@ Code in views/schedules/resident/schedule_basic.blade.php might be different bas
 var url = current_url.search('/filter/') > -1 ? current_url.substr(0, current_url.search('/filter/')) : current_url;
 url = url + "/filter/" + doctor_selected + "_" + start_after_selected + "_" + end_before_selected;
 ```
+
