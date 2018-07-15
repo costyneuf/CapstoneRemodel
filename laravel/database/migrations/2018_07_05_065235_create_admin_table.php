@@ -27,10 +27,12 @@ class CreateAdminTable extends Migration
             // Read rows until null
             while (($line = fgetcsv($fp)) !== false)
             {
-                $name = $line[0];
-                $email = $line[1];    
+                $id = $line[0];
+                $name = $line[1];
+                $email = $line[2];
+                $exists = $line[3];    
                 DB::table('admin')->insert(
-                    ['name' => $name, 'email' => $email]
+                    ['id' => $id, 'name' => $name, 'email' => $email, 'exists' => $exists]
                 );
             }
 
@@ -43,7 +45,7 @@ class CreateAdminTable extends Migration
         // Insert the primary admin if backup file does not exist
         DB::table('admin')->insert([
             'email' => $_ENV["ADMIN_PRIMARY_EMAIL"], 
-            'name' => $_ENV["ADMIN_PRIMARY_NAME"]    
+            'name' => $_ENV["ADMIN_PRIMARY_NAME"]   
         ]);
     }
 
@@ -64,14 +66,18 @@ class CreateAdminTable extends Migration
         $output = fopen($filename, 'w+');
         // Set up the first row
         fputcsv($output, array(
+            'id',
             'name', 
-            'email'
+            'email',
+            'exists'
         ));
         // Add all rows
         foreach ($data as $info) {
             fputcsv($output, array(
+                $info['id'],
                 $info['name'],
-                $info['email']
+                $info['email'],
+                $info['exists']
             ));
         }
 
@@ -88,8 +94,13 @@ class CreateAdminTable extends Migration
     public function up()
     {
         Schema::create('admin', function (Blueprint $table) {
+            
+            // Primary Key
+            $table->increments('id');
+
             $table->string('name'); // Name of the admin
-            $table->string('email')->unique()->primary(); // Primary Key: email of the admin
+            $table->string('email')->unique(); // Email of the admin
+            $table->boolean('exists')->default(1); // Whether the resident exists
 
             // Add for future extension
             $table->timestamps();
