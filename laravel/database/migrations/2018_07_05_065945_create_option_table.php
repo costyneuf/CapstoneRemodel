@@ -14,12 +14,12 @@ class CreateOptionTable extends Migration
      */
     private function initialize()
     {
-        if (file_exists ( $_ENV["BACKUP_PATH"]."option.csv" )) {
+        if (file_exists ( __DIR__.$_ENV["BACKUP_PATH"]."option.csv" )) {
 
             /**
              * Read data from the backup file and add into database
              */
-            $fp = fopen($_ENV["BACKUP_PATH"]."option.csv", 'r');
+            $fp = fopen(__DIR__.$_ENV["BACKUP_PATH"]."option.csv", 'r');
             
             // Read the first row
             fgetcsv($fp);
@@ -65,11 +65,16 @@ class CreateOptionTable extends Migration
         /** 
          * Save data sets into a csv file
          */        
-        $filename = $_ENV["BACKUP_PATH"]."option.csv";
+        $filename = __DIR__.$_ENV["BACKUP_PATH"]."option.csv";
         $data = DB::table('option')->get();
         
         // Erase existing file
-        $output = fopen($filename, 'w+');
+        if (file_exists ( $filename )) {
+            $output = fopen($filename, 'w');
+        }
+        else {
+            $output = fopen($filename, 'x');
+        }
         // Set up the first row
         fputcsv($output, array(
             'id', 

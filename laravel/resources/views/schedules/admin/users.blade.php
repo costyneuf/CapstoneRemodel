@@ -76,7 +76,9 @@
                 <td align="left">{{ $role['email'] }}</td>
                 <td align="left">{{ $role['role'] }}</td>
                 <td>
-                    <input align="center" onclick = "deleteUsers(this.id);" value="Delete User" type="button" class='btn btn-md btn-success' id="{{ $role['email'] }}_{{ $role['role'] }}">
+                    @if ($role['role'] != "Admin")
+                        <input align="center" onclick = "deleteUsers(this.id);" value="Delete User" type="button" class='btn btn-md btn-success' id="{{ $role['email'] }}_{{ $role['role'] }}">
+                    @endif
                 </td>
             </tr>                             
         @endforeach
