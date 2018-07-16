@@ -9,6 +9,7 @@ use App\Attending;
 use App\Resident;
 use App\Option;
 use App\Assignment;
+use App\AdminDownload;
 
 class AdminController extends Controller
 {   
@@ -181,6 +182,16 @@ class AdminController extends Controller
     public function getMessages()
     {
         return view('schedules.admin.messages');
+    }
+
+    /**
+     * Route to download data sheets page
+     */
+    public function getDownload()
+    {
+        AdminDownload::updateAccess();
+        AdminDownload::updateFiles();
+        return view('schedules.admin.download');
     }
 
 }

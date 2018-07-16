@@ -53,6 +53,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('schedules', 'AdminController@getSchedules');
 
     Route::get('postmessage', 'AdminController@getMessages');
+
+    Route::get('download', 'AdminController@getDownload');
 });
 
 Route::prefix('survey')->group(function() {
