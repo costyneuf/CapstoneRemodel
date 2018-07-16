@@ -94,14 +94,11 @@ class PagesController extends Controller
         $name = $_SERVER["HTTP_DISPLAYNAME"];
         $email = $_SERVER["HTTP_EMAIL"];
         $roles = array();
-        $admin = new Admin();
-        $resident = new Resident();
-        $attending = new Attending();
-        if ($admin->ifExist($email))
+        if (Admin::where('email', $email)->where('exists', '1')->exists())
         {
             array_push($roles, "Admin");
         } 
-        if ($resident->ifExist($email))
+        if (Resident::where('email', $email)->where('exists', '1')->exists())
         {
             array_push($roles, "Resident");
         }

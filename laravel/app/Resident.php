@@ -3,9 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Roles;
 
-class Resident extends Roles
+class Resident extends Model
 {
     /**
      * The table associated with the model.

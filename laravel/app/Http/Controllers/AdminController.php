@@ -12,17 +12,6 @@ use App\Assignment;
 
 class AdminController extends Controller
 {   
-
-    // private function getPermission()
-    // {
-    //     $email = $_SERVER["HTTP_EMAIL"];
-    //     //$admin = new Admin();
-    //     if (Admin::where('email', $email)->where('exists', '1')->doesntExist())
-    //     {
-    //         return view('nonpermit');
-    //     }
-    // }
-
     public function getIndex()
     {         
         return view('schedules.admin.admin');        
