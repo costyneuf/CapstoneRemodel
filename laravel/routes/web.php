@@ -17,7 +17,7 @@ Route::prefix('/')->group(function () {
     Route::get('contact','PagesController@getContact');
 });
 
-Route::prefix('resident')->group(function () {
+Route::group(['prefix' => 'resident', 'middleware' => 'resident'], function () {
     Route::get('/', 'ResidentController@getIndex');
     Route::get('home', 'PagesController@getIndex');
     Route::get('about', 'PagesController@getAbout');
@@ -37,7 +37,7 @@ Route::prefix('resident')->group(function () {
     Route::get('instructions','ResidentController@getInstructions');
 });
 
-Route::prefix('admin')->group(function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', 'AdminController@getIndex');
     Route::get('home', 'PagesController@getIndex');
     Route::get('about', 'PagesController@getAbout');
