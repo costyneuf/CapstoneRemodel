@@ -33,9 +33,9 @@ class AdminController extends Controller
      */
     public function getUsers()
     {
-        $resident = Resident::orderBy('email', 'asc')->get();
-        $admin = Admin::orderBy('email', 'asc')->get();
-        $attending = Attending::orderBy('email', 'asc')->get();
+        $resident = Resident::where('exists', '1')->orderBy('email', 'asc')->get();
+        $admin = Admin::where('exists', '1')->orderBy('email', 'asc')->get();
+        $attending = Attending::where('exists', '1')->orderBy('email', 'asc')->get();
         $roles = array();
         
         for ($i=0; $i<count($admin); $i++) {

@@ -12,15 +12,15 @@ class ResidentController extends Controller
 
     public function getIndex()
     {        
-        $email = $_SERVER["HTTP_EMAIL"];
-        $admin = new Admin();
-        $resident = new Resident();
-        if ($admin->ifExist($email) || $resident->ifExist($email))
-        {
-            return view('schedules.resident.resident');
-        }
+        // $email = $_SERVER["HTTP_EMAIL"];
+        // $admin = new Admin();
+        // $resident = new Resident();
+        // if ($admin->ifExist($email) || $resident->ifExist($email))
+        // {
+        return view('schedules.resident.resident');
+        // }
 
-        return view('nonpermit');       
+        // return view('nonpermit');       
     }
 
     public function getInstructions()
