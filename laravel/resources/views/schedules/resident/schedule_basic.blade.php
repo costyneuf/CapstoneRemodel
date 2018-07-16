@@ -114,7 +114,11 @@
         {
             var current_url = window.location.href;
             var url = current_url.substr(0, current_url.search('/schedule/'));
-            url = url + "/schedule/" + id + "/" + document.getElementById(id+"_").value;
+            if (current_url.includes('secondday')) {
+                url = url + "/schedule/secondday/" + id + "/" + document.getElementById(id+"_").value;
+            } else {
+                url = url + "/schedule/thirdday/" + id + "/" + document.getElementById(id+"_").value;
+            }
             window.location.href = url;
         }
     </script>

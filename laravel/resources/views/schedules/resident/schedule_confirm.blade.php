@@ -27,7 +27,11 @@
         // Update url to the confirmation page
         var current_url = window.location.href;
         var url = current_url.substr(0, current_url.search('/schedule/'));
-        url = url + "/schedule/" + id_ + "/" + choice + "/true";
+        if (current_url.includes('secondday')) {
+            url = url + "/schedule/secondday/" + id_ + "/" + choice + "/true";
+        } else {
+            url = url + "/schedule/thirdday/" + id_ + "/" + choice + "/true";
+        }
         window.location.href = url;
     }
 

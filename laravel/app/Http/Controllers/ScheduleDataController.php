@@ -184,6 +184,7 @@ class ScheduleDataController extends Controller
                                                 'start_time' => $this->start_time, 'end_time' => $this->end_time));
         $flag = null;
 
+        self::checkSubmit();
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day', 'flag'));
     }
 
@@ -210,6 +211,7 @@ class ScheduleDataController extends Controller
                                                 'start_time' => $this->start_time, 'end_time' => $this->end_time));
         $flag = null;
 
+        self::checkSubmit();
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day', 'flag'));
 
     }
@@ -253,11 +255,20 @@ class ScheduleDataController extends Controller
             
             $room = $schedule_data[0]['room'];
             $attending = substr($attending_string, 0, strpos($attending_string, "["));
-            return view('schedules.resident.milestone', compact('room', 'attending'));
+            $id__ = Option::where('date', $date)->where('resident', $resident)->where('option', $choice)->value('id');
+            return view('schedules.resident.milestone', compact('room', 'attending', 'id__'));
         }
 
         return view('schedules.resident.schedule_confirm', compact('schedule_data', 'input'));
 
+    }
+
+    private function checkSubmit()
+    {
+        if (isset($_POST['option_id'])) {
+            Option::where('id', $_REQUEST['option_id'])->update(['milestones'=>$_REQUEST['milestones'], 'objectives'=>$_REQUEST['objectives']]);
+        }
+    
     }
 
 }

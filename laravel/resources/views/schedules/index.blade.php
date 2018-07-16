@@ -1,6 +1,21 @@
 @extends('main')
 @section('content')
-	<h1>Hello, <?php echo $_SERVER["HTTP_DISPLAYNAME"]; ?></h1> 
+	<h3>Hello, <?php echo $_SERVER["HTTP_DISPLAYNAME"]; ?>,</h3>
+	
+	<br><br>
+
+	<p>REMODEL (REsident MilestOne-baseD Educational Learning) is a system designed by David Stahl, MD (Associate Residency Program Director) in collaboration 
+		with the CAPSTONE Teams from The Ohio State University (OSU) Department of Computer Science & Engineering, and in conjunction with leadership from 
+		OSU Department Anesthesiology for the benefit of our anesthesiology residents.</p>
+	
+	<br><br>
+
+	<p>Special thanks to:</p>
+	<ul>
+		<li>Xing Gao</li>
+		<li>Hui Li</li>
+		<li>Yi Xu</li>
+	</ul>			
 
 	<?php
 		use App\Resident;
