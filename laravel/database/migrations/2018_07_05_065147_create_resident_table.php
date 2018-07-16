@@ -41,6 +41,24 @@ class CreateResidentTable extends Migration
 
             return;
         }
+
+        if (file_exists ( __DIR__.$_ENV["RESIDENT_PATH"] ))
+        {
+            $fp = fopen( __DIR__.$_ENV["RESIDENT_PATH"], 'r');
+            // Read rows until null
+            while (($line = fgetcsv($fp)) !== false)
+            {
+                $id = $line[0];
+                $name = $line[1];
+                $email = $line[2];
+                $exists = $line[3];    
+                DB::table('resident')->insert(
+                    ['id' => $id, 'name' => $name, 'email' => $email, 'exists' => $exists]
+                );
+            }
+            // Close file
+            fclose($fp);            
+        }
     }
 
     /**
