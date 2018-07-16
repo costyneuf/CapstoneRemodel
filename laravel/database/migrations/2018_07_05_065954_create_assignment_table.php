@@ -108,7 +108,7 @@ class CreateAssignmentTable extends Migration
             $table->date('date'); // Date
             $table->unsignedInteger('resident'); // ID of the resident
             $table->unsignedInteger('schedule')->unique(); // ID of the schedule           
-            $table->unsignedInteger('attending');     // ID of the attending
+            $table->string('attending');     // ID of the attending
             
             // Add for future extension
             $table->timestamps();

@@ -117,7 +117,7 @@ class CreateOptionTable extends Migration
             $table->date('date');
             $table->unsignedInteger('resident');
             $table->unsignedInteger('schedule');            
-            $table->unsignedInteger('attending');
+            $table->string('attending');
             $table->unsignedInteger('option');
             $table->longText('milestones')->nullable();
             $table->longText('objectives')->nullable();          
