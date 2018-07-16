@@ -49,8 +49,8 @@ class CreateResidentTable extends Migration
             while (($line = fgetcsv($fp)) !== false)
             {
                 $id = $line[0];
-                $name = $line[1];
-                $email = $line[2];
+                $name = $line[2];
+                $email = $line[1];
                 $exists = $line[3];    
                 DB::table('resident')->insert(
                     ['id' => $id, 'name' => $name, 'email' => $email, 'exists' => $exists]
