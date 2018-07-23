@@ -5,12 +5,13 @@
 	<div id = "Resident Form">
         <h4>Resident Preferences</h4><br>
         <h5>Your Preference: Room {{ $room }} with {{ $attending }}</h5>
-        <form method="POST" action="../../submit" onsubmit='return validate()'>
+        <form method="POST" action="../../submit">
 		<div class="form-group">
                 
                 <label>Select your Milestone:</label><br>
 
-                <select name="milestones" id="milestones">
+                <select name="milestones" id="milestones" required>
+                        <option disabled selected value> -- Select a Milestone -- </option>
                         <option value="PC1">PC1 - Patient Care 1</option>
                         <option value="PC2">PC2 - Patient Care 2</option>
                         <option value="PC3">PC3 - Patient Care 3</option>
@@ -45,7 +46,7 @@
                 <input type="hidden" name="schedule_id" value="{{ $id }}">
                 <input type="hidden" name="choice" value="{{ $choice }}">
                 
-                <textarea rows="3" name="objectives" id="objectives" class="form-control"></textarea><br>
+                <textarea rows="3" name="objectives" id="objectives" class="form-control" required></textarea><br>
                   
                 <br>
                 
@@ -53,19 +54,5 @@
 
 		</div>
                 </form>
-                
-                <script language='javascript'>
-                        function validate () {
-                                if(document.getElementById('milstones').value=="") {
-                                        alert("Please complete all fields!");
-                                        return false;
-                                }
-                                if(document.getElementById('objectives').value=="") {
-                                        alert("Please complete all fields!");
-                                        return false;
-                                }
-                                return true;
-                        }
-                </script>
 	</div>
 @endsection
