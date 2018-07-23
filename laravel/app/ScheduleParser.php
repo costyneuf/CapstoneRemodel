@@ -171,9 +171,17 @@ class ScheduleParser extends Model
 				if (Option::where('schedule', $data_arr[$i]['id'])->exists()) {
 					$tmp = Option::where('schedule', $data_arr[$i]['id'])->get();
 					foreach($tmp as $row) {
-						$row['resident'] = $data_arr[$i + 1]['id'];
+						Option::where('id', $row['id'])->update(['schedule'=> $data_arr[$i + 1]['id']]);
 					}
 				}
+
+				if (Assignment::where('schedule', $data_arr[$i]['id'])->exists()) {
+					$tmp = Assignment::where('schedule', $data_arr[$i]['id'])->get();
+					foreach($tmp as $row) {
+						Assignment::where('id', $row['id'])->update(['schedule'=> $data_arr[$i + 1]['id']]);
+					}
+				}
+
 
 				// Delete data query
 				ScheduleData::where('id', $data_arr[$i]['id'])->delete();
