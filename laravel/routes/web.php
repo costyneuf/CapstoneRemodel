@@ -11,12 +11,18 @@
 |
 */
 
+/**
+ * Home page
+ */
 Route::prefix('/')->group(function () {
     Route::get('', 'PagesController@getIndex');
     Route::get('about', 'PagesController@getAbout');
     Route::get('contact','PagesController@getContact');
 });
 
+/**
+ * Resident's page
+ */
 Route::group(['prefix' => 'resident', 'middleware' => 'resident'], function () {
     Route::get('/', 'ResidentController@getIndex');
     Route::get('home', 'PagesController@getIndex');
@@ -35,12 +41,15 @@ Route::group(['prefix' => 'resident', 'middleware' => 'resident'], function () {
     Route::get('schedule/secondday/{id}/{choice}/{flag?}', 'ScheduleDataController@getChoice');
     Route::get('schedule/thirdday/{id}/{choice}/{flag?}', 'ScheduleDataController@getChoice');
 
-    Route::post('schedule/secondday/submit', 'ScheduleDataController@getSecondDay');
-    Route::post('schedule/thirdday/submit', 'ScheduleDataController@getThirdDay');
+    Route::post('schedule/{day}/submit', 'ScheduleDataController@getSubmit');
+    // Route::post('schedule/thirdday/submit', 'ScheduleDataController@getSubmit');
     
     Route::get('instructions','ResidentController@getInstructions');
 });
 
+/**
+ * Admin's page
+ */
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/', 'AdminController@getIndex');
     Route::get('home', 'PagesController@getIndex');
@@ -57,6 +66,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('download', 'AdminController@getDownload');
 });
 
+/**
+ * Pre-surgery and post-surgery feedback page
+ * 
+ * Authorization: residents and attendings
+ * 
+ */
 Route::prefix('survey')->group(function() {
     Route::get('{date}', 'PagesController@getFeedback');
 });

@@ -184,7 +184,6 @@ class ScheduleDataController extends Controller
                                                 'start_time' => $this->start_time, 'end_time' => $this->end_time));
         $flag = null;
 
-        self::checkSubmit();
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day', 'flag'));
     }
 
@@ -211,13 +210,15 @@ class ScheduleDataController extends Controller
                                                 'start_time' => $this->start_time, 'end_time' => $this->end_time));
         $flag = null;
 
-        self::checkSubmit();
         return view('schedules.resident.schedule_table',compact('schedule_data', 'year', 'mon', 'day', 'flag'));
 
     }
 
     public function getChoice($id, $choice, $flag=null)
     {
+        /**
+         * Exclude Admin from selecting preferences
+         */
         if (!Resident::where('email', $_SERVER["HTTP_EMAIL"])->exists()) {
             return view('nonpermit');
         }
@@ -230,45 +231,82 @@ class ScheduleDataController extends Controller
         
         if ($flag != null)
         {
-            $date = $schedule_data[0]['date'];
+            /**
+             * Route to milestone selection page
+             */
+
             $resident_data = Resident::where('email', $_SERVER["HTTP_EMAIL"])->get();
             $resident = $resident_data[0]['id'];
             $attending_string = $schedule_data[0]['lead_surgeon'];
             $attending = substr($attending_string, strpos($attending_string, "[")+1, strpos($attending_string, "]")-(strpos($attending_string, "[")+1));
 
+            /**
+             * Check whether the input is valid
+             */
             if (Option::where('schedule', $id)->where('resident', $resident)->count() > 0 && 
                 Option::where('schedule', $id)->where('resident', $resident)->where('option',$choice)->count() == 0)
             {
                 return view('schedules.resident.schedule_error');
             }
-
-            if (Option::where('date', $date)->where('resident', $resident)->where('option',$choice)->count() != 0)
-            {
-                Option::where('date', $date)->where('resident', $resident)->where('option',$choice)
-                                            ->delete();
-            }
-
-            Option::insert(
-                ['date' => $date, 'resident' => $resident, 'schedule' => $id, 
-                'attending' => $attending, 'option' => $choice]
-            );
             
             $room = $schedule_data[0]['room'];
             $attending = substr($attending_string, 0, strpos($attending_string, "["));
-            $id__ = Option::where('date', $date)->where('resident', $resident)->where('option', $choice)->value('id');
-            return view('schedules.resident.milestone', compact('room', 'attending', 'id__'));
+            return view('schedules.resident.milestone', compact('room', 'attending', 'id', 'choice'));
         }
 
         return view('schedules.resident.schedule_confirm', compact('schedule_data', 'input'));
 
     }
 
-    private function checkSubmit()
+    private function insertOption()
     {
-        if (isset($_POST['option_id'])) {
-            Option::where('id', $_REQUEST['option_id'])->update(['milestones'=>$_REQUEST['milestones'], 'objectives'=>$_REQUEST['objectives']]);
-        }
+        /**
+         * Retrieve schedule data from schedule_data table
+         */
+        $schedule_data = ScheduleData::where('id', $_REQUEST['schedule_id'])->get();
+
+        /**
+         * Convert choice to an integer
+         */
+        $choice = (int)$_REQUEST['choice'];
+
+        // Get date
+        $date = $schedule_data[0]['date'];
+        // Get resident
+        $resident_data = Resident::where('email', $_SERVER["HTTP_EMAIL"])->get();
+        $resident = $resident_data[0]['id'];
+        // Get attending id
+        $attending_string = $schedule_data[0]['lead_surgeon'];
+        $attending = substr($attending_string, strpos($attending_string, "[")+1, 
+                            strpos($attending_string, "]")-(strpos($attending_string, "[")+1));
     
+        /**
+         * Remove old option data
+         */
+        if (Option::where('date', $date)
+                    ->where('resident', $resident)
+                    ->where('option',$choice)
+                    ->count() != 0)
+        {
+            Option::where('date', $date)
+                    ->where('resident', $resident)
+                    ->where('option',$choice)
+                    ->delete();
+        }
+
+        // Insert data
+        Option::insert(
+            ['date' => $date, 'resident' => $resident, 'schedule' => $_REQUEST['schedule_id'], 
+            'attending' => $attending, 'option' => $choice, 'milestones'=>$_REQUEST['milestones'], 
+            'objectives'=>$_REQUEST['objectives']]
+        );
+    
+    }
+
+    public function getSubmit($day=null)
+    {
+        self::insertOption();
+        return view('schedules.resident.schedule_update');
     }
 
 }

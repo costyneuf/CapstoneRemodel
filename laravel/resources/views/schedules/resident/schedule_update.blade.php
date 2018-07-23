@@ -1,4 +1,5 @@
 @extends('main')
 @section('content')
-    <h1>Successfully Update Preferences!</h1>
+    <h4>Successfully Update Preferences!</h4>
+    <p>Click <a href="/..">here</a> to the schedule page</p>
 @endsection
