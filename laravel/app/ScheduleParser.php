@@ -15,6 +15,7 @@ class ScheduleParser extends Model
 	 */
 	protected $filepath;
 	protected $date;
+	protected $fileExists = true;
 
 	/**
 	 * Private functions
@@ -58,6 +59,11 @@ class ScheduleParser extends Model
 	 */
 	private function insertScheduleData()
 	{
+
+		if (!file_exists($this->filepath)) {
+			return false;
+		}
+
 		/**
 		 * Open file
 		 */
@@ -91,6 +97,8 @@ class ScheduleParser extends Model
 		 */
 		fclose($fp);
 
+		return true;
+
 	}
 
 	
@@ -117,7 +125,15 @@ class ScheduleParser extends Model
 		$day = intval(substr($datefile, 6));
 		$this->date = $year."-".$month."-".$day;
 
-		$this->insertScheduleData();
+		if (!$this->insertScheduleData())
+		{
+			$this->fileExists=false;
+		}
+	}
+
+	public function fileExists()
+	{
+		return $this->fileExists;
 	}
 
 	/**

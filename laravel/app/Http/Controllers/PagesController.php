@@ -10,6 +10,10 @@ use App\Attending;
 use App\Option;
 use App\ScheduleData;
 use App\Assignment;
+use App\Status;
+use App\ScheduleParser;
+use App\AutoAssignment;
+use App\Google;
 
 class PagesController extends Controller
 {
@@ -83,6 +87,56 @@ class PagesController extends Controller
 
     public function getIndex()
     {
+        $date = date("Y-m-d", strtotime('today'));
+        if (Status::where('date', $date)->doesntExist())
+        {
+            Status::insert([
+                'date'=>$date
+            ]);
+        }
+        if ((int)Status::where('date', $date)->value('schedule') < 1)
+        {
+            $parser = new ScheduleParser(date("o", strtotime('today')).date("m", strtotime('today')).date("j", strtotime('today')), true);
+            $process_date = array(
+                date("Y-m-d", strtotime('+2 day')),
+                date("Y-m-d", strtotime('+3 day')),
+                date("Y-m-d", strtotime('+4 day')),
+                date("Y-m-d", strtotime('+5 day')),
+            );
+            foreach($process_date as $date)
+            {
+                $parser->processScheduleData($date);
+            }
+            $date = date("Y-m-d", strtotime('today'));
+            if ($parser->fileExists()) {
+                Status::where('date', $date)->update([
+                    'schedule'=>true
+                ]);
+            }
+
+        }
+
+        $tomorrow = date("Y-m-d", strtotime('+1 day'));
+        if (Status::where('date', $tomorrow)->doesntExist())
+        {
+            Status::insert([
+                'date'=>$tomorrow
+            ]);
+        }
+        if ((int)Status::where('date', $tomorrow)->value('assignment') != 1)
+        {
+            AutoAssignment::assignment($tomorrow);
+            Status::where('date', $tomorrow)->update([
+                'assignment'=>1
+            ]);
+        }
+        if ((int)Status::where('date', $date)->value('google') < 1)
+        {
+            Google::updateSheets($date);
+            Status::where('date', $date)->update([
+                'google'=>1
+            ]);
+        }
         return view('schedules.index');
     }
 
