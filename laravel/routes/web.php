@@ -61,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('schedules', 'AdminController@getSchedules');
     Route::post('updateDB', 'AdminController@postUpdateDB');
     Route::post('addDB', 'AdminController@postAddDB');
+    Route::post('editDB', 'AdminController@postEditDB');
 
     Route::get('postmessage', 'AdminController@getMessages');
 

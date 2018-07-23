@@ -185,8 +185,7 @@ class AdminController extends Controller
         if (strcmp($_POST['op'], "add") == 0)
         {
             $date = $_POST['date'];
-            $message = null;
-            return view('schedules.admin.addDB', compact('message','date'));
+            return view('schedules.admin.addDB', compact('date'));
         } 
         else if (strcmp($_POST['op'], "delete") == 0)
         {
@@ -213,26 +212,79 @@ class AdminController extends Controller
         } 
         else if (strcmp($_POST['op'], "edit") == 0)
         {
-            
+            $datasets = self::retrieveData($_POST['date']);
+            $residents = Resident::orderBy('email', 'asc')->get();
+            return view('schedules.admin.editDB', compact('datasets', 'residents'));            
         }
 
     }
 
-    private function processCaseProcedure()
+    private function retrieveData($date)
     {
-        $case_procedure = $_POST['case_procedure_1']." [".$_POST['case_procedure_1_code']."]";
+        $schedules = ScheduleData::where('date', $date)->orderBy('room', 'asc')->get();
+        $datasets = array();
+
+        foreach ($schedules as $schedule)
+        {
+            $id = $schedule['id'];
+            $location = is_null($schedule['location']) ? "" : $schedule['location'];
+            $room = is_null($schedule['room']) ? "" : $schedule['room'];
+            $case_procedure = is_null($schedule['case_procedure']) ? "" : $schedule['case_procedure'];
+            
+            $lead_surgeon = "";
+            $lead_surgeon_code = "";
+            if (!is_null($schedule['lead_surgeon']))
+            {
+                $pos = strpos($schedule['lead_surgeon'], "[");
+                $pos_end = strpos($schedule['lead_surgeon'], "]");
+                $lead_surgeon = substr($schedule['lead_surgeon'], 0, $pos-1);
+                $lead_surgeon_code = substr($schedule['lead_surgeon'], $pos+1, $pos_end-$pos-1);
+            }
+
+            $patient_class = is_null($schedule['patient_class']) ? "" : $schedule['patient_class'];
+            $start_time = is_null($schedule['start_time']) ? "" : $schedule['start_time'];
+            $end_time = is_null($schedule['end_time']) ? "" : $schedule['end_time'];
+            
+            $assignment = "";
+            $email = "";
+            if (Assignment::where('schedule', $id)->exists())
+            {
+                $resident = Assignment::where('schedule', $id)->value('resident');
+                $assignment = Resident::where('id', $resident)->value('name');
+                $email = Resident::where('id', $resident)->value('email');
+            }
+
+            array_push($datasets, array(
+                        'id'=>$id, 'location'=>$location, 'room'=>$room, 'date'=>$date,
+                        'case_procedure'=>$case_procedure, 'lead_surgeon'=>$lead_surgeon,
+                        'lead_surgeon_code'=>$lead_surgeon_code, 'patient_class'=>$patient_class,
+                        'start_time'=>$start_time, 'end_time'=>$end_time, 'assignment'=>$assignment, 'email'=>$email
+            ));
+
+        }
+        return $datasets;
+    }
+
+    private function processCaseProcedure($case_procedure_1=null)
+    {
+        $case_procedure = is_null($case_procedure_1) ? $_POST['case_procedure_1']." [".$_POST['case_procedure_1_code']."]" : $case_procedure_1;
         if (strlen($_POST['case_procedure_2'])>0)
         {
-            $case_procedure.", ".$_POST['case_procedure_2']." [".$_POST['case_procedure_2_code']."]";
+            if (strlen($case_procedure) > 0) {
+                $case_procedure.=", ".$_POST['case_procedure_2']." [".$_POST['case_procedure_2_code']."]";
+            } else {
+                $case_procedure.=$_POST['case_procedure_2']." [".$_POST['case_procedure_2_code']."]";
+            }
+            
             if (strlen($_POST['case_procedure_3'])>0)
             {
-                $case_procedure.", ".$_POST['case_procedure_3']." [".$_POST['case_procedure_3_code']."]";
+                $case_procedure.=", ".$_POST['case_procedure_3']." [".$_POST['case_procedure_3_code']."]";
                 if (strlen($_POST['case_procedure_4'])>0)
                 {
-                    $case_procedure.", ".$_POST['case_procedure_4']." [".$_POST['case_procedure_4_code']."]";
+                    $case_procedure.=", ".$_POST['case_procedure_4']." [".$_POST['case_procedure_4_code']."]";
                     if (strlen($_POST['case_procedure_5'])>0)
                     {
-                        $case_procedure.", ".$_POST['case_procedure_5']." [".$_POST['case_procedure_5_code']."]";
+                        $case_procedure.=", ".$_POST['case_procedure_5']." [".$_POST['case_procedure_5_code']."]";
                         
                     }
                 }
@@ -273,7 +325,54 @@ class AdminController extends Controller
 
         }
 
-        return view('schedules.admin.addDB', compact('message'));
+        return view('schedules.admin.addDB_OK', compact('message'));
+    }
+
+    public function postEditDB()
+    {
+        $message = "Fail to edit schedule data!";
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
+
+        if (strcmp($start_time, $end_time) < 0) {
+            $id = $_POST['id'];
+            $location = $_POST['location'];
+            $room = $_POST['room'];
+            $case_procedure = self::processCaseProcedure($_POST['case_procedure_1']);
+            $lead_surgeon = $_POST['lead_surgeon']." [".$_POST['lead_surgeon_code']."]";
+            $patient_class = $_POST['patient_class'];
+            
+            ScheduleData::where('id', $id)->update([
+                'location' => $location, 'room' => $room, 'case_procedure' => $case_procedure, 
+                'lead_surgeon' => $lead_surgeon, 'patient_class' => $patient_class, 
+                'start_time' => $start_time, 'end_time' => $end_time
+            ]);
+
+            if (strlen($_POST['assignment']) > 0 && Assignment::where('schedule', $id)->exists())
+            {
+                $assignment = Resident::where('email', $_POST['assignment'])->value('id');
+                Assignment::where('schedule', $id)->update([
+                    'resident'=>$assignment
+                ]);
+            }
+            elseif (strlen($_POST['assignment']) > 0)
+            {
+                $assignment = Resident::where('email', $_POST['assignment'])->value('id');
+                $date = $_POST['date'];
+                Assignment::insert([
+                    'date'=>$date, 'resident'=>$assignment, 
+                    'attending'=>$_POST['lead_surgeon_code'],
+                    'schedule'=>$id, 
+                ]);
+            }
+
+
+            $message = "Successfully edit schedule data!";
+        }
+
+ 
+
+        return view('schedules.admin.addDB_OK', compact('message'));
     }
     
 
