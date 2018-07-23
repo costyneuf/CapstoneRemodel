@@ -10,6 +10,7 @@ use App\Resident;
 use App\Option;
 use App\Assignment;
 use App\AdminDownload;
+use App\ScheduleData;
 
 class AdminController extends Controller
 {   
@@ -174,6 +175,107 @@ class AdminController extends Controller
     {
         return view('schedules.admin.schedules');
     }
+
+
+    /**
+     * Route to update DB page
+     */
+    public function postUpdateDB()
+    {
+        if (strcmp($_POST['op'], "add") == 0)
+        {
+            $date = $_POST['date'];
+            $message = null;
+            return view('schedules.admin.addDB', compact('message','date'));
+        } 
+        else if (strcmp($_POST['op'], "delete") == 0)
+        {
+            /**
+             * Back up data sheets
+             */
+            AdminDownload::updateAccess();
+            $urls = AdminDownload::updateURL($_POST['date']);
+            
+            if ($urls !== null)
+            {
+
+                /**
+                 * Delete selected data sets
+                 */
+                Assignment::where('date', $_POST['date'])->delete();
+                Option::where('date', $_POST['date'])->delete();
+                ScheduleData::where('date', $_POST['date'])->delete();
+
+                return view('schedules.admin.deleteDB', compact('urls'));
+            }
+
+            echo "Error in deleting data sets!";
+        } 
+        else if (strcmp($_POST['op'], "edit") == 0)
+        {
+            
+        }
+
+    }
+
+    private function processCaseProcedure()
+    {
+        $case_procedure = $_POST['case_procedure_1']." [".$_POST['case_procedure_1_code']."]";
+        if (strlen($_POST['case_procedure_2'])>0)
+        {
+            $case_procedure.", ".$_POST['case_procedure_2']." [".$_POST['case_procedure_2_code']."]";
+            if (strlen($_POST['case_procedure_3'])>0)
+            {
+                $case_procedure.", ".$_POST['case_procedure_3']." [".$_POST['case_procedure_3_code']."]";
+                if (strlen($_POST['case_procedure_4'])>0)
+                {
+                    $case_procedure.", ".$_POST['case_procedure_4']." [".$_POST['case_procedure_4_code']."]";
+                    if (strlen($_POST['case_procedure_5'])>0)
+                    {
+                        $case_procedure.", ".$_POST['case_procedure_5']." [".$_POST['case_procedure_5_code']."]";
+                        
+                    }
+                }
+            }
+            
+        }
+
+        return $case_procedure;
+    }
+
+    /**
+     * Route to add DB page
+     */
+    public function postAddDB()
+    {
+
+        $message = "Fail to add schedule data!";
+
+        if (ScheduleData::where('date', $_POST['date'])->where('room', $_POST['room'])->doesntExist())
+        {
+            $date = $_POST['date'];
+            $location = $_POST['location'];
+            $room = $_POST['room'];
+            $case_procedure = self::processCaseProcedure();
+            $lead_surgeon = $_POST['lead_surgeon']." [".$_POST['lead_surgeon_code']."]";
+            $patient_class = $_POST['patient_class'];
+            $start_time = $_POST['start_time'].":00";
+            $end_time = $_POST['end_time'].":00";
+            if (strcmp($start_time, $end_time) < 0) {
+                ScheduleData::insert([
+                    'date' => $date, 'location' => $location, 'room' => $room, 'case_procedure' => $case_procedure, 
+                    'lead_surgeon' => $lead_surgeon, 'patient_class' => $patient_class, 'start_time' => $start_time, 
+                    'end_time' => $end_time
+                ]);
+    
+                $message = "Successfully add schedule data!";
+            }
+
+        }
+
+        return view('schedules.admin.addDB', compact('message'));
+    }
+    
 
 
     /**

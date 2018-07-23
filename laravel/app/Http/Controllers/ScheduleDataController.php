@@ -303,7 +303,7 @@ class ScheduleDataController extends Controller
     
     }
 
-    public function getSubmit($day=null)
+    public function postSubmit($day=null)
     {
         self::insertOption();
         return view('schedules.resident.schedule_update');

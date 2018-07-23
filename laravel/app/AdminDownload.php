@@ -41,9 +41,9 @@ class AdminDownload extends Model
 
     }
 
-    private static function updateResident()
+    private static function updateResident($date)
     {        
-        $dir = __DIR__."/../../downloads/resident.csv";
+        $dir = __DIR__."/../../downloads/resident".$date.".csv";
         $fp = null;
 
         if (file_exists($dir)) {
@@ -54,6 +54,7 @@ class AdminDownload extends Model
 
         fputcsv($fp, array('name', 'email'));
         $residents = Resident::where('exists', '1')->get();
+
         foreach ($residents as $resident)
         {
             fputcsv($fp, array($resident['name'], $resident['email']));   
@@ -62,9 +63,9 @@ class AdminDownload extends Model
 
     }
 
-    private static function updateAttending()
+    private static function updateAttending($date)
     {        
-        $dir = __DIR__."/../../downloads/attending.csv";
+        $dir = __DIR__."/../../downloads/attending".$date.".csv";
         $fp = null;
 
         if (file_exists($dir)) {
@@ -75,6 +76,7 @@ class AdminDownload extends Model
 
         fputcsv($fp, array('name', 'email'));
         $attendings = Attending::where('exists', '1')->get();
+
         foreach ($attendings as $attending)
         {
             fputcsv($fp, array($attending['name'], $attending['email']));   
@@ -83,9 +85,9 @@ class AdminDownload extends Model
 
     }
 
-    private static function updateAdmin()
+    private static function updateAdmin($date)
     {        
-        $dir = __DIR__."/../../downloads/admin.csv";
+        $dir = __DIR__."/../../downloads/admin".$date.".csv";
         $fp = null;
 
         if (file_exists($dir)) {
@@ -96,6 +98,7 @@ class AdminDownload extends Model
 
         fputcsv($fp, array('name', 'email'));
         $admins = Admin::where('exists', '1')->get();
+
         foreach ($admins as $admin)
         {
             fputcsv($fp, array($admin['name'], $admin['email']));   
@@ -104,9 +107,9 @@ class AdminDownload extends Model
 
     }
 
-    private static function updateOption()
+    private static function updateOption($date)
     {        
-        $dir = __DIR__."/../../downloads/option.csv";
+        $dir = __DIR__."/../../downloads/option".$date.".csv";
         $fp = null;
 
         if (file_exists($dir)) {
@@ -117,7 +120,14 @@ class AdminDownload extends Model
 
         fputcsv($fp, array('date', 'room', 'patient class', 'start time', 'end time',
                             'lead surgeon', 'resident', 'preference', 'milestones', 'objectives'));
-        $options = Option::orderBy('date', 'desc')->get();
+        $options = null;
+        if ($date == null) {
+            $options = Option::orderBy('date', 'desc')->get();
+        }
+        else {
+            $options = Option::where('date', $date)->get();
+        }
+
         foreach ($options as $option)
         {
             $schedule_id = $option['schedule'];
@@ -141,9 +151,9 @@ class AdminDownload extends Model
 
     }
 
-    private static function updateAssignment()
+    private static function updateAssignment($date)
     {        
-        $dir = __DIR__."/../../downloads/assignment.csv";
+        $dir = __DIR__."/../../downloads/assignment".$date.".csv";
         $fp = null;
 
         if (file_exists($dir)) {
@@ -153,7 +163,15 @@ class AdminDownload extends Model
         }
 
         fputcsv($fp, array('date', 'room', 'patient class', 'start time', 'end time', 'lead surgeon', 'resident'));
-        $options = Assignment::orderBy('date', 'desc')->get();
+        
+        $options = null;
+        if ($date == null) {
+            $options = Assignment::orderBy('date', 'desc')->get();
+        }
+        else {
+            $options = Assignment::where('date', $date)->get();
+        }
+        
         foreach ($options as $option)
         {
             $schedule_id = $option['schedule'];
@@ -173,12 +191,22 @@ class AdminDownload extends Model
 
     }
 
-    public static function updateFiles()
+    public static function updateFiles($date=null)
     {
-        self::updateResident();
-        self::updateAttending();
-        self::updateAdmin();
-        self::updateAssignment();
-        self::updateOption();
+        self::updateResident($date);
+        self::updateAttending($date);
+        self::updateAdmin($date);
+        self::updateAssignment($date);
+        self::updateOption($date);
+    }
+
+    public static function updateURL($date)
+    {
+        self::updateFiles($date);
+        return array("../../../downloads/assignment".$date.".csv",
+        "../../../downloads/option".$date.".csv",
+        "../../../downloads/admin".$date.".csv",
+        "../../../downloads/resident".$date.".csv",
+        "../../../downloads/attending".$date.".csv");
     }
 }

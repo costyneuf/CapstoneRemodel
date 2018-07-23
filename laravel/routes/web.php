@@ -41,8 +41,7 @@ Route::group(['prefix' => 'resident', 'middleware' => 'resident'], function () {
     Route::get('schedule/secondday/{id}/{choice}/{flag?}', 'ScheduleDataController@getChoice');
     Route::get('schedule/thirdday/{id}/{choice}/{flag?}', 'ScheduleDataController@getChoice');
 
-    Route::post('schedule/{day}/submit', 'ScheduleDataController@getSubmit');
-    // Route::post('schedule/thirdday/submit', 'ScheduleDataController@getSubmit');
+    Route::post('schedule/{day}/submit', 'ScheduleDataController@postSubmit');
     
     Route::get('instructions','ResidentController@getInstructions');
 });
@@ -60,6 +59,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('users/{op}/{role}/{email}/{flag}/{name?}', 'AdminController@getUpdateUsers');
 
     Route::get('schedules', 'AdminController@getSchedules');
+    Route::post('updateDB', 'AdminController@postUpdateDB');
+    Route::post('addDB', 'AdminController@postAddDB');
 
     Route::get('postmessage', 'AdminController@getMessages');
 
