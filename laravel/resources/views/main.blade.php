@@ -1,6 +1,12 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>       
+        <style>
+            th {
+                cursor: pointer;
+            }
+
+        </style>
         @include('partials._header') 
     </head>
     <body>

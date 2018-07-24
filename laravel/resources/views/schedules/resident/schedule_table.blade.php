@@ -4,15 +4,15 @@
 	@if(!is_null($schedule_data))
 		<table class="table table-striped table-bordered" id="sched_table">
 			<tr>
-				<th>No.</th>
-				<th>Room</th>
-				<th>Case Procedures</th>
-				<th>Lead Surgeon</th>
-				<th>Patient Class</th>
-				<th>Start Time</th>
-				<th>End Time</th>
+				<th onclick="sortTable(1)">No.</th>
+				<th onclick="sortTable(1)">Room</th>
+				<th onclick="sortTable(2)">Case Procedures</th>
+				<th onclick="sortTable(3)">Lead Surgeon</th>
+				<th onclick="sortTable(4)">Patient Class</th>
+				<th onclick="sortTable(5)">Start Time</th>
+				<th onclick="sortTable(6)">End Time</th>
 				@if ($flag != null)
-					<th>Assignment</th>
+					<th onclick="sortTable(7)">Assignment</th>
 				@else
 					<th>Preference</th>
 					<th>Submit</th>
@@ -78,7 +78,46 @@
 
 
 		</table>
-		<!--'">-->
+		<script>
+			function sortTable(n) {
+			  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+			  table = document.getElementById("sched_table");
+			  switching = true;
+			  dir = "asc"; 
+			  
+			  while (switching) {
+				switching = false;
+				rows = table.getElementsByTagName("TR");
+				for (i = 1; i < (rows.length - 1); i++) {
+				  shouldSwitch = false;
+				  x = rows[i].getElementsByTagName("TD")[n];
+				  y = rows[i + 1].getElementsByTagName("TD")[n];
+				  if (dir == "asc") {
+					if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+					  shouldSwitch= true;
+					  break;
+					}
+				  } else if (dir == "desc") {
+					if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+					  shouldSwitch = true;
+					  break;
+					}
+				  }
+				}
+				if (shouldSwitch) {
+				  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+				  switching = true;
+				  
+				  switchcount ++;      
+				} else {
+				  if (switchcount == 0 && dir == "asc") {
+					dir = "desc";
+					switching = true;
+				  }
+				}
+			  }
+			}
+		</script>
 	@else
 		<h2>Error loading table!</h2>
 	@endif
