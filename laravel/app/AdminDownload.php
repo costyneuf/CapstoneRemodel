@@ -37,6 +37,9 @@ class AdminDownload extends Model
             fwrite($fp, $line);
         }
 
+        fwrite($fp, "ShibRequestSetting authnContextClassRef urn:mace:osu.edu:shibboleth:ac:classes:mfa\r\n");
+        fwrite($fp, "Require authnContextClassRef urn:mace:osu.edu:shibboleth:ac:classes:mfa\r\n");
+
         fclose($fp);
 
     }

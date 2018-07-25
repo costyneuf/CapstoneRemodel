@@ -24,6 +24,9 @@
     ShibRequestSetting redirectToSSL 443
     ShibRequestSetting requireSession 1
     Require shib-session
+
+    ShibRequestSetting authnContextClassRef urn:mace:osu.edu:shibboleth:ac:classes:mfa
+    Require authnContextClassRef urn:mace:osu.edu:shibboleth:ac:classes:mfa
 </IfModule>
 
 
