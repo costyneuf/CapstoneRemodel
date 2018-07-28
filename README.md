@@ -29,3 +29,9 @@ var url = current_url.search('/filter/') > -1 ? current_url.substr(0, current_ur
 url = url + "/filter/" + doctor_selected + "_" + start_after_selected + "_" + end_before_selected;
 ```
 
+## Setup OCIO server
+* SFTP: The SFTP button may help you access the server. The instructions on the right provide you the access link.
+* DATABASE: Click on the DATABASE section. Click on phpmyadmin on the right. The username is xgl. And password is xgl. No uppercase. 
+* SHELL: Try to acess the shell by Putty. The FastX doesn't work here. You could see the shell link after Dr.Stahl has added you to one of the shell users.
+
+
