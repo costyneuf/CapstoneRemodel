@@ -4,8 +4,12 @@
 
 * [Laravel 5.6](https://laravel.com/docs/5.6) - The documents for the web framework used
 * [PHP](http://us1.php.net/manual/en/langref.php) - Manual for language reference
+* [Composer](https://getcomposer.org/download/) - Updated Composer
+* [Shibboleth@OSU](https://webauth.service.ohio-state.edu/~shibboleth/) - OSU Shibboleth
 
-## Commands for test
+## Useful Commands 
+
+### Test
 
 Command: "phpunit" under the root directory
 If the phpunit doesn't work, try "composer global require phpunit/phpunit". Set the phpunit command as the global scope.
@@ -19,6 +23,23 @@ for the next three days.
 ```
 php artisan educationReport:add 20180615 --process=2018-06-16 --process=2018-06-17 --process=2018-06-18
 ```
+
+### Check PHP version
+
+```
+php -v (or php -i)
+```
+
+### Environment Setup
+* Clone the repository
+* Open git bash or run through terminal the following commands (update database accordingly):
+
+```
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+```
+
 
 ## NOTES
 
@@ -39,5 +60,9 @@ url = url + "/filter/" + doctor_selected + "_" + start_after_selected + "_" + en
 * Google API: https://developers.google.com/sheets/api/quickstart/php 
 * The above link provides the Google sheets API setup. The project now could access the google account(google sheets), but you need the private key updating from your personal google account.
 * Scheduling task on server: Refer to Crontab in linux tutorial.
-* Survey page: The "static survey page" represents the page that residents and attendings can add their feedback after completing the surgery. Currently, the url of this page is: https://remodel.anesthesiology_dev.org.ohio-state.edu/laravel/public/survey/YYYYMMDD.
+* Survey page: The "static survey page" represents the page that residents and attendings can add their feedback after completing the 
+surgery. Currently, the url of this page is: https://remodel.anesthesiology_dev.org.ohio-state.edu/laravel/public/survey/YYYYMMDD. e.g. 
+Suppose "resident" "Test Resident" visits https://remodel.anesthesiology_dev.org.ohio-state.edu/laravel/public/survey/20180710 after 
+07/10/2018. He will view the summary of the surgery conducted on 07/10/2018 and is able to submit his comments for that surgery (or the 
+attending). 
 
