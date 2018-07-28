@@ -34,4 +34,10 @@ url = url + "/filter/" + doctor_selected + "_" + start_after_selected + "_" + en
 * DATABASE: Click on the DATABASE section. Click on phpmyadmin on the right. The username is xgl. And password is xgl. No uppercase. 
 * SHELL: Try to acess the shell by Putty. The FastX doesn't work here. You could see the shell link after Dr.Stahl has added you to one of the shell users.
 
+## Future extension 
+* Mail: You could see the mail section setup in the Laravel mail setup documents. https://laravel.com/docs/5.6/mail
+* Google API: https://developers.google.com/sheets/api/quickstart/php 
+* The above link provides the Google sheets API setup. The project now could access the google account(google sheets), but you need the private key updating from your personal google account.
+* Scheduling task on server: Refer to Crontab in linux tutorial.
+* Survey page: The "static survey page" represents the page that residents and attendings can add their feedback after completing the surgery. Currently, the url of this page is: https://remodel.anesthesiology_dev.org.ohio-state.edu/laravel/public/survey/YYYYMMDD.
 
