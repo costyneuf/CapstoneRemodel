@@ -17,7 +17,7 @@
                     <a class="nav-link" href="/laravel/public/">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/laravel/public/about" id="about">Personal Information</a>
+                    <a class="nav-link" href="/laravel/public/about" id="about">My Selections</a>
                     <script>
                         // document.getElementById("about").href = window.location.pathname + "/about";
                         //if (window.location.pathname == "/")
