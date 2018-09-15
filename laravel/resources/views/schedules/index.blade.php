@@ -31,14 +31,48 @@
 		}
 	?>
 
-	@if ($access)
-		<br><br>
-		<a class="btn btn-primary" href="resident">Resident Page</a>
-	@endif
-	
-	@if ($super_access)
-		<br><br>		
-		<a class="btn btn-primary" href="admin">Admin Page</a>
-	@endif
+	{{--@if ($access)--}}
+		{{--<br><br>--}}
+		{{--<a class="btn btn-primary" href="resident">Resident Page</a>--}}
+	{{--@endif--}}
+	{{----}}
+	{{--@if ($super_access)--}}
+		{{--<br><br>		--}}
+		{{--<a class="btn btn-primary" href="admin">Admin Page</a>--}}
+	{{--@endif--}}
+
+
+	<br><br>
+	<button class="btn btn-primary" onclick="resident({{$access}})">Resident Page</button>
+
+
+	<br><br>
+	<button class="btn btn-primary" onclick="admin({{$super_access}})">Admin Page</button>
+
+	<script type="text/javascript">
+        function resident(access)
+        {
+            if(access){
+                window.location.href = "resident";
+
+            } else alert('You must be a resident registered with this site to access this feature, please use the contact us link if you believe you should have access');
+
+
+        }
+
+	</script>
+	<script type="text/javascript">
+        function admin(super_access)
+        {
+            if(super_access){
+                window.location.href = "admin";
+
+            } else alert('You must be a site administrator to access this feature, please use the contact us link if you believe you should have access');
+
+
+        }
+
+	</script>
+
 
 @endsection
